@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private float jumpPower;//ジャンプの力（仮）
 
     [SerializeField]
+    private GameObject attackPoint;//攻撃位置
+
+    [SerializeField]
     private Rigidbody rb;//RigidBody
 
     [SerializeField]
@@ -20,7 +23,16 @@ public class PlayerController : MonoBehaviour
     private bool isjumping;//ジャンプしているかどうか
 
     private bool isAttack;//攻撃しているかどうか
-    
+
+    /// <summary>
+    /// ゲーム開始直後に呼び出される
+    /// </summary>
+    private void Start()
+    {
+        //攻撃位置を無効化
+        attackPoint.SetActive(false);
+    }
+
     /// <summary>
     /// 毎フレーム呼び出される
     /// </summary>
@@ -29,7 +41,7 @@ public class PlayerController : MonoBehaviour
         //プレーヤーの行動を制御する
         StartCoroutine(ControlMovement());
 
-        //アニメーションを制御する
+        //攻撃以外のアニメーションを制御する
         ControlAnimation();
     }
 
@@ -48,12 +60,6 @@ public class PlayerController : MonoBehaviour
             //右を向く
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
         }
-        //移動しないなら
-        else if (moveDirection == 0f)
-        {
-            //正面を向く
-            transform.eulerAngles = new Vector3(0f, 0f, 0f);
-        }
         //左方向へ移動するなら
         else if (moveDirection < 0f)
         {
@@ -68,14 +74,8 @@ public class PlayerController : MonoBehaviour
         //攻撃キーが押され、攻撃中ではないなら
         if (Input.GetAxis("Vertical") < 0f && !isAttack)
         {
-            //攻撃中に切り替える
-            isAttack = true;
-
-            //攻撃するまで待つ
-            yield return new WaitForSeconds(0.5f);
-
-            //攻撃を終了する
-            isAttack = false;
+            //攻撃する
+            StartCoroutine(Attack());
         }
 
         //ジャンプキーが押され、ジャンプ中ではないなら
@@ -114,7 +114,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// アニメーションを制御する
+    /// 攻撃以外のアニメーションを制御する
     /// </summary>
     private void ControlAnimation()
     {
@@ -127,17 +127,8 @@ public class PlayerController : MonoBehaviour
             //走るアニメーションを止める
             animator.SetBool("Run", false);
 
-            //攻撃アニメーションを行う
-            animator.SetBool("Attack", true);
-
             //以降の処理を行わない
             return;
-        }
-        //攻撃中ではないなら
-        else
-        {
-            //攻撃アニメーションを止める
-            animator.SetBool("Attack", false);
         }
 
         //ジャンプ中なら
@@ -159,7 +150,12 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("Jump", false);
         }
 
-        //TODO:接地していないなら以降の処理を行わない
+        //接地していないなら
+        if(!CheckGrounded())
+        {
+            //以降の処理を行わない
+            return;
+        }
 
         //移動キーが押されているなら
         if(moveDirection!=0f)
@@ -176,5 +172,39 @@ public class PlayerController : MonoBehaviour
             //走るアニメーションを止める
             animator.SetBool("Run", false);
         }
+    }
+
+    /// <summary>
+    /// 攻撃する
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    private IEnumerator Attack()
+    {
+        //攻撃中に切り替える
+        isAttack = true;
+
+        //攻撃アニメーションを行う
+        animator.SetBool("Attack", true);
+
+        //つま先が、攻撃位置に来るまで待つ
+        yield return new WaitForSeconds(0.3f);
+
+        //攻撃位置を有効化
+        attackPoint.SetActive(true);
+
+        //足が完全に上がるまで待つ
+        yield return new WaitForSeconds(0.2f);
+
+        //攻撃位置を無効化
+        attackPoint.SetActive(false);
+
+        //攻撃のアニメーションを止める
+        animator.SetBool("Attack", false);
+
+        //元の姿勢に戻るまで待つ
+        yield return new WaitForSeconds(0.5f);
+
+        //攻撃を終了する
+        isAttack = false;
     }
 }
