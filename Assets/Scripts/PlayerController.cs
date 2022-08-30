@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(transform.up * jumpPower);
 
             //完全に離着するまで待つ
-            yield return new WaitForSeconds(1.7f);
+            yield return new WaitForSeconds(1.5f);
 
             //ジャンプを終了する
             isjumping = false;
@@ -143,6 +143,9 @@ public class PlayerController : MonoBehaviour
         //ジャンプ中なら
         if(isjumping)
         {
+            //走るアニメーションを止める
+            animator.SetBool("Run", false);
+
             //ジャンプのアニメーションを行う
             animator.SetBool("Jump", true);
 
