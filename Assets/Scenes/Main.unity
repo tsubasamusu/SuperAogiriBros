@@ -2882,8 +2882,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1560898509}
-  - component: {fileID: 1570735493}
   - component: {fileID: 1570735494}
+  - component: {fileID: 1570735493}
   - component: {fileID: 1570735495}
   m_Layer: 0
   m_Name: Tsubasa
@@ -3070,7 +3070,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  jumpHeight: 5
   rb: {fileID: 1570735495}
+  animator: {fileID: 1570735493}
+  anim: {fileID: 0}
 --- !u!54 &1570735495
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -57075,7 +57078,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  jumpHeight: 5
   rb: {fileID: 5635693738244821028}
+  animator: {fileID: 1789667706493209176}
+  anim: {fileID: 0}
 --- !u!54 &5635693738244821028
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -65954,7 +65960,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
+  jumpHeight: 5
   rb: {fileID: 6593712558778912875}
+  animator: {fileID: 444289401179148457}
+  anim: {fileID: 0}
 --- !u!54 &6593712558778912875
 Rigidbody:
   m_ObjectHideFlags: 0
