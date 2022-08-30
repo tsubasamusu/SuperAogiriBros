@@ -10,7 +10,10 @@ public class PlayerController : MonoBehaviour
     private float jumpPower;//ジャンプの力（仮）
 
     [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
-    private float specialJumpPower;//崖から復活するときのジャンプ力
+    private float specialJumpPower;//崖から復活するときのジャンプ力（仮）
+
+    [SerializeField, Tooltip("1試合で崖にしがみついていられる総時間")]
+    private float maxCliffTime;//1試合で崖にしがみついていられる総時間
 
     [SerializeField]
     private GameObject attackPoint;//攻撃位置
@@ -22,6 +25,8 @@ public class PlayerController : MonoBehaviour
     private Animator animator;//Animator
 
     private float moveDirection;//移動方向
+
+    private float cliffTimer;//崖にしがみついている総時間
 
     private bool isjumping;//ジャンプしているかどうか
 
@@ -46,8 +51,21 @@ public class PlayerController : MonoBehaviour
         //崖にしがみついているなら
         if(CheckCliff())
         {
-            //崖にしがみつく
-            ClingingCliff();
+            //時間を計測する
+            cliffTimer += Time.deltaTime;
+
+            //時間的にまだしがみついていられるなら
+            if (cliffTimer < maxCliffTime)
+            {
+                //崖にしがみつく
+                ClingingCliff();
+            }
+            //しがみついていられる最高時間を超えたら
+            else
+            {
+                //崖にしがみつくアニメーションをやめる
+                animator.SetBool("Cliff", false);
+            }
 
             //以降の処理を行わない
             return;
@@ -273,6 +291,8 @@ public class PlayerController : MonoBehaviour
         //ジャンプキーが押されて、まだジャンプしていないなら
         if (Input.GetAxis("Vertical") > 0&&!jumped)
         {
+            //TODO:GameDataから「崖から復活するときのジャンプ力」を取得する処理
+
             //ジャンプする
             rb.AddForce(transform.up * specialJumpPower);
 

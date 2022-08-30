@@ -3211,6 +3211,7 @@ MonoBehaviour:
   moveSpeed: 1000
   jumpPower: 3500
   specialJumpPower: 100000
+  maxCliffTime: 5
   attackPoint: {fileID: 1312417896}
   rb: {fileID: 1570735495}
   animator: {fileID: 1570735493}
@@ -57294,6 +57295,7 @@ MonoBehaviour:
   moveSpeed: 1000
   jumpPower: 3500
   specialJumpPower: 100000
+  maxCliffTime: 5
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
@@ -66206,6 +66208,7 @@ MonoBehaviour:
   moveSpeed: 1000
   jumpPower: 3500
   specialJumpPower: 100000
+  maxCliffTime: 5
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
