@@ -1,7 +1,5 @@
 using System.Collections;//IEnumeratorを使用
-using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;//DOTweenを使用
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private float moveSpeed;//移動速度（仮）
 
     [SerializeField]
-    private float jumpHeight;//ジャンプの高さ（仮）
+    private float jumpPower;//ジャンプの力（仮）
 
     [SerializeField]
     private Rigidbody rb;//RigidBody
@@ -22,9 +20,7 @@ public class PlayerController : MonoBehaviour
     private bool isjumping;//ジャンプしているかどうか
 
     private bool isAttack;//攻撃しているかどうか
-
-    private Vector3 movement;//移動位置
-
+    
     /// <summary>
     /// 毎フレーム呼び出される
     /// </summary>
@@ -38,15 +34,6 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 一定時間ごとに呼び出される
-    /// </summary>
-    private void FixedUpdate()
-    {
-        //移動を実行する
-        rb.MovePosition(rb.position + movement);
-    }
-
-    /// <summary>
     /// プレーヤーの行動を制御する
     /// </summary>
     /// <returns>待ち時間</returns>
@@ -55,25 +42,31 @@ public class PlayerController : MonoBehaviour
         //移動方向を取得
         moveDirection = Input.GetAxis("Horizontal");
 
-        //TODO:GameDataから移動速度を取得する処理
-
-        //移動位置を設定
-        movement = new Vector3(-1f,transform.position.y,0f) * moveDirection * moveSpeed * Time.fixedDeltaTime;
-
-        //ジャンプキーが押され、ジャンプ中ではないなら
-        if(Input.GetAxis("Vertical")>0f&&!isjumping)
+        //右方向へ移動するなら
+        if (moveDirection > 0f)
         {
-            //ジャンプ中に切り替える
-            isjumping = true;
-
-            //TODO:GameDataからジャンプの高さを取得する処理
-
-            //ジャンプする
-            transform.DOLocalMoveY(jumpHeight,1.25f/2f).SetLoops(2,LoopType.Yoyo).OnComplete(() => {isjumping=false;});
+            //右を向く
+            transform.eulerAngles = new Vector3(0f, -90f, 0f);
+        }
+        //移動しないなら
+        else if (moveDirection == 0f)
+        {
+            //正面を向く
+            transform.eulerAngles = new Vector3(0f, 0f, 0f);
+        }
+        //左方向へ移動するなら
+        else if (moveDirection < 0f)
+        {
+            //左を向く
+            transform.eulerAngles = new Vector3(0f, 90f, 0f);
         }
 
+        //TODO:GameDataから移動速度を取得する処理
+
+        rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * moveSpeed);
+
         //攻撃キーが押され、攻撃中ではないなら
-        if(Input.GetAxis("Vertical")<0f&&!isAttack)
+        if (Input.GetAxis("Vertical") < 0f && !isAttack)
         {
             //攻撃中に切り替える
             isAttack = true;
@@ -84,6 +77,40 @@ public class PlayerController : MonoBehaviour
             //攻撃を終了する
             isAttack = false;
         }
+
+        //ジャンプキーが押され、ジャンプ中ではないなら
+        if (Input.GetAxis("Vertical") > 0f && !isjumping)
+        {
+            //ジャンプ中に切り替える
+            isjumping = true;
+
+            //TODO:GameDataからジャンプ力を取得する処理
+
+            //ジャンプする
+            rb.AddForce(transform.up * jumpPower);
+
+            //完全に離着するまで待つ
+            yield return new WaitForSeconds(1.7f);
+
+            //ジャンプを終了する
+            isjumping = false;
+        }
+    }
+
+    /// <summary>
+    /// 接地判定を行う
+    /// </summary>
+    /// <returns>接地していたらtrue</returns>
+    private bool CheckGrounded()
+    {
+        //光線の初期位置と向きを設定
+        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+        //光線の長さを設定
+        float tolerance = 0.3f;
+
+        //光線の判定を返す
+        return Physics.Raycast(ray, tolerance);
     }
 
     /// <summary>
@@ -94,6 +121,12 @@ public class PlayerController : MonoBehaviour
         //攻撃中なら
         if(isAttack)
         {
+            //ジャンプのアニメーションを止める
+            animator.SetBool("Jump", false);
+
+            //走るアニメーションを止める
+            animator.SetBool("Run", false);
+
             //攻撃アニメーションを行う
             animator.SetBool("Attack", true);
 
@@ -128,7 +161,7 @@ public class PlayerController : MonoBehaviour
         //移動キーが押されているなら
         if(moveDirection!=0f)
         {
-            //走るアニメーションを止める
+            //走るアニメーションを行う
             animator.SetBool("Run", true);
 
             //以降の処理を行わない
