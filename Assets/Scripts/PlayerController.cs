@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpPower;//ジャンプの力（仮）
 
+    [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
+    private float specialJumpPower;//崖から復活するときのジャンプ力
+
     [SerializeField]
     private GameObject attackPoint;//攻撃位置
 
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isAttack;//攻撃しているかどうか
 
+    private bool jumped;//崖からジャンプしたかどうか
+
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
@@ -38,6 +43,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //崖にしがみついているなら
+        if(CheckCliff())
+        {
+            //崖にしがみつく
+            ClingingCliff();
+
+            //以降の処理を行わない
+            return;
+        }
+
         //プレーヤーの行動を制御する
         StartCoroutine(ControlMovement());
 
@@ -118,6 +133,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ControlAnimation()
     {
+        //崖にしがみつくアニメーションを止める
+        animator.SetBool("Cliff", false);
+
         //攻撃中なら
         if(isAttack)
         {
@@ -156,6 +174,9 @@ public class PlayerController : MonoBehaviour
             //以降の処理を行わない
             return;
         }
+
+        //崖からジャンプしていない状態に切り替える
+        jumped = false;
 
         //移動キーが押されているなら
         if(moveDirection!=0f)
@@ -206,5 +227,66 @@ public class PlayerController : MonoBehaviour
 
         //攻撃を終了する
         isAttack = false;
+    }
+
+    /// <summary>
+    /// 崖にしがみついているかどうか調べて、崖にしがみつく処理を行う
+    /// </summary>
+    /// <returns>崖にしがみついていたらtrue</returns>
+    private bool CheckCliff()
+    {
+        //プレイヤーが崖より上か下にいるなら
+        if(transform.position.y>-1f||transform.position.y<-3f)
+        {
+            //以降の処理を行わない
+            return false;
+        }
+
+        //プレイヤーが崖より外側にいるなら
+        if(transform.position.x<-9f||transform.position.x>9f)
+        {
+            //以降の処理を行わない
+            return false;
+        }
+
+        //trueを返す
+        return true;
+    }
+
+   /// <summary>
+   /// 崖にしがみつく
+   /// </summary>
+    private void ClingingCliff()
+    {
+        //攻撃のアニメーションを止める
+        animator.SetBool("Attack", false);
+
+        //ジャンプのアニメーションを止める
+        animator.SetBool("Jump", false);
+
+        //走るアニメーションを止める
+        animator.SetBool("Run", false);
+
+        //崖にしがみつくアニメーションを行う
+        animator.SetBool("Cliff", true);
+
+        //ジャンプキーが押されて、まだジャンプしていないなら
+        if (Input.GetAxis("Vertical") > 0&&!jumped)
+        {
+            //ジャンプする
+            rb.AddForce(transform.up * specialJumpPower);
+
+            //ジャンプした状態に切り替える
+            jumped = true;
+
+            //以降の処理を行わない
+            return;
+        }
+
+        //プレイヤーを崖の位置に移動させる
+        transform.position = transform.position.x > 0 ? new Vector3(8.2f, -2f, 0f) : new Vector3(-8.2f, -2f, 0f);
+
+        //プレイヤーの向きを崖に合わせる
+        transform.eulerAngles = transform.position.x > 0 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
     }
 }
