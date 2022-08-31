@@ -12,7 +12,13 @@ public class CharacterHealth : MonoBehaviour
     private CameraController cameraController;//CameraController
 
     [SerializeField]
-    private GameObject attackEffect;//攻撃が当たった場合のエフェクト
+    private GameObject attackEffect;//攻撃が当たった際のエフェクト（仮）
+
+    [SerializeField]
+    private Transform parentTran;//エフェクトの親
+
+    [SerializeField]
+    private GameObject deadEffect;//死ぬ際のエフェクト（仮）
 
     [SerializeField]
     private float powerRatio;//ダメージ比率（仮）
@@ -81,8 +87,10 @@ public class CharacterHealth : MonoBehaviour
         //上に吹っ飛ばされる
         transform.DOMoveY(transform.position.y + (damage * powerRatio), 0.5f);
 
+        //TODO:GameDataから「攻撃が当たった際のエフェクト」を取得する処理
+
         //エフェクトを生成
-        GameObject effect = Instantiate(attackEffect, enemyTran.position, Quaternion.identity);
+        GameObject effect = Instantiate(attackEffect, enemyTran.position, Quaternion.identity,parentTran);
 
         //一定時間後に、生成したエフェクトを消す   
         Destroy(effect, 1f);
@@ -120,6 +128,14 @@ public class CharacterHealth : MonoBehaviour
     /// </summary>
     private void KillMe()
     {
+        //TODO:GameDataから死ぬ際のエフェクトを取得する処理
+
+        //エフェクトを生成
+        GameObject effect = Instantiate(deadEffect,transform.position,Quaternion.identity,parentTran);
+
+        //一定時間後に、生成したエフェクトを消す   
+        Destroy(effect, 1f);
+
         //カメラの対象物のリストから自身を削除する
         cameraController.targetTransList.Remove(transform);
 
