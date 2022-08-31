@@ -47813,6 +47813,7 @@ GameObject:
   - component: {fileID: 5635693738244821029}
   - component: {fileID: 5635693738244821030}
   - component: {fileID: 5635693738244821031}
+  - component: {fileID: 5635693738244821032}
   m_Layer: 0
   m_Name: Tamako
   m_TagString: Untagged
@@ -54313,6 +54314,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5635693738244821028}
   powerRatio: 10
+--- !u!114 &5635693738244821032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5007388382381836952}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286028c7842a90c4a8f9d577aa444287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTran: {fileID: 5821538103671442131}
+  npcMoveSpeed: 1000
+  jumpPower: 3500
+  attackPoint: {fileID: 996949062}
+  rb: {fileID: 5635693738244821028}
+  animator: {fileID: 1789667706493209176}
 --- !u!1 &5639167391056172746
 GameObject:
   m_ObjectHideFlags: 0
@@ -63159,6 +63178,7 @@ GameObject:
   - component: {fileID: 6593712558778912876}
   - component: {fileID: 6593712558778912877}
   - component: {fileID: 6593712558778912878}
+  - component: {fileID: 6593712558778912879}
   m_Layer: 0
   m_Name: Mashiro
   m_TagString: Untagged
@@ -63241,6 +63261,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6593712558778912875}
   powerRatio: 10
+--- !u!114 &6593712558778912879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593712558778912873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286028c7842a90c4a8f9d577aa444287, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyTran: {fileID: 5635693738244821026}
+  npcMoveSpeed: 1000
+  jumpPower: 3500
+  attackPoint: {fileID: 652455865}
+  rb: {fileID: 6593712558778912875}
+  animator: {fileID: 444289401179148457}
 --- !u!4 &6601159329079231624
 Transform:
   m_ObjectHideFlags: 0
