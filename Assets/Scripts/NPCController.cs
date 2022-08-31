@@ -74,9 +74,6 @@ public class NPCController : MonoBehaviour
             return;
         }
 
-        //走るアニメーションを行う
-        animator.SetBool("Run", true);
-
         //現在の移動速度を初期値に設定
         currentMoveSpeed = npcMoveSpeed;
 
@@ -91,6 +88,13 @@ public class NPCController : MonoBehaviour
         {
             //左を向く
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
+        }
+
+        //攻撃中ではないなら
+        if(!isAttack)
+        {
+            //走るアニメーションを行う
+            animator.SetBool("Run", true);
         }
     }
 

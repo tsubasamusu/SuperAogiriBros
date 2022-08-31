@@ -406,6 +406,7 @@ MonoBehaviour:
   targetTransList:
   - {fileID: 5635693738244821026}
   - {fileID: 5821538103671442131}
+  smooth: 1
 --- !u!1 &996949062
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,13 +7,19 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private List<Transform> targetTransList=new List<Transform>();//映す対象のオブジェクトの位置情報のリスト
 
+    [SerializeField]
+    private float smooth;//視点移動の滑らかさ
+
     /// <summary>
-    /// 毎フレーム呼び出される
+    /// 一定時間ごとに呼び出される
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
-        //カメラを移動させる
-        transform.position = new Vector3(GetCenterPos().x, GetCenterPos().y, transform.position.z);
+        //カメラの移動位置を取得
+        Vector3 pos = new Vector3(GetCenterPos().x, GetCenterPos().y, transform.position.z);
+
+        //カメラを滑らかに移動させる
+        transform.position = Vector3.Lerp(transform.position, pos, Time.fixedDeltaTime * smooth);
     }
 
     /// <summary>
