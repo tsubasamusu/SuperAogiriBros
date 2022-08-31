@@ -435,6 +435,37 @@ Transform:
   m_Father: {fileID: 5635693738244821026}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1277964179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1277964180}
+  m_Layer: 0
+  m_Name: ForceTran
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1277964180
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1277964179}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5821538103671442131}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1312417896
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +511,37 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1313851999
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1313852000}
+  m_Layer: 0
+  m_Name: ForceTran
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1313852000
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1313851999}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5635693738244821026}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1555192728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1693,6 +1755,7 @@ Transform:
   m_Children:
   - {fileID: 1560898511}
   - {fileID: 1312417897}
+  - {fileID: 1749648324}
   m_Father: {fileID: 1555192729}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3024,6 +3087,7 @@ GameObject:
   - component: {fileID: 1570735495}
   - component: {fileID: 1570735496}
   - component: {fileID: 1570735497}
+  - component: {fileID: 1570735498}
   m_Layer: 0
   m_Name: Tsubasa
   m_TagString: Untagged
@@ -3257,6 +3321,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &1570735498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561261997}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4de4b94aeace0941b99639dafc386ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1570735495}
+  forceTran: {fileID: 1749648324}
 --- !u!137 &1574861633
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -3427,6 +3505,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTran: {fileID: 963194228}
   charaTran: {fileID: 1560898509}
+--- !u!1 &1749648323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1749648324}
+  m_Layer: 0
+  m_Name: ForceTran
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1749648324
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1749648323}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1560898509}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1857482457
 GameObject:
   m_ObjectHideFlags: 0
@@ -50855,13 +50964,14 @@ GameObject:
   - component: {fileID: 5635693738244821028}
   - component: {fileID: 5635693738244821029}
   - component: {fileID: 5635693738244821030}
+  - component: {fileID: 5635693738244821031}
   m_Layer: 0
   m_Name: Tamako
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &5007454062663605173
 GameObject:
   m_ObjectHideFlags: 0
@@ -57277,6 +57387,7 @@ Transform:
   - {fileID: 770575052374711704}
   - {fileID: 6430538216806205663}
   - {fileID: 996949064}
+  - {fileID: 1313852000}
   m_Father: {fileID: 1555192729}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -57341,6 +57452,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &5635693738244821031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5007388382381836952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4de4b94aeace0941b99639dafc386ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 5635693738244821028}
+  forceTran: {fileID: 1313852000}
 --- !u!1 &5639167391056172746
 GameObject:
   m_ObjectHideFlags: 0
@@ -59173,6 +59298,7 @@ Transform:
   - {fileID: 8363269186580149780}
   - {fileID: 1724905855422651260}
   - {fileID: 652455866}
+  - {fileID: 1277964180}
   m_Father: {fileID: 1555192729}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -66186,13 +66312,14 @@ GameObject:
   - component: {fileID: 6593712558778912875}
   - component: {fileID: 6593712558778912876}
   - component: {fileID: 6593712558778912877}
+  - component: {fileID: 6593712558778912878}
   m_Layer: 0
   m_Name: Mashiro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &6593712558778912874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66254,6 +66381,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6593712558778912878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593712558778912873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4de4b94aeace0941b99639dafc386ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 6593712558778912875}
+  forceTran: {fileID: 1277964180}
 --- !u!4 &6601159329079231624
 Transform:
   m_ObjectHideFlags: 0
