@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;//DOTweenを使用
 
 public class CharacterHealth : MonoBehaviour
 {
@@ -10,10 +11,13 @@ public class CharacterHealth : MonoBehaviour
     [SerializeField]
     private CameraController cameraController;//CameraController
 
-    private float damage=0f;//蓄積ダメージ（初期値は0）
-
     [SerializeField]
     private float powerRatio;//ダメージ比率（仮）
+
+    [SerializeField]
+    private float damageTime;//吹っ飛ばされる時間（仮）
+
+    private float damage=0f;//蓄積ダメージ（初期値は0）
 
     /// <summary>
     /// 毎フレーム呼び出される
@@ -53,8 +57,23 @@ public class CharacterHealth : MonoBehaviour
 
         //TODO:GameDataから「ダメージ比率」を取得する処理
 
-        //力を加える
-        rb.AddForce(enemyTran.forward * damage * powerRatio, ForceMode.Impulse);
+        //TODO:GameDataから「吹っ飛ばされる時間」を取得する処理
+
+        //攻撃相手が自身より左にいるなら
+        if (enemyTran.position.x>transform.position.x)
+        {
+            //横に吹っ飛ばされる
+            transform.DOMoveX(transform.position.x - (damage * powerRatio),0.5f);
+        }
+        //攻撃相手が自身より右にいるなら
+        else if(enemyTran.position.x < transform.position.x)
+        {
+            //吹っ飛ばされる
+            transform.DOMoveX(transform.position.x + (damage * powerRatio), 0.5f);
+        }
+
+        //上に吹っ飛ばされる
+        transform.DOMoveY(transform.position.y + (damage * powerRatio), 0.5f);
     }
 
     /// <summary>

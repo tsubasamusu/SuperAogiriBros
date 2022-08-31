@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(transform.up * jumpPower);
 
             //完全に離着するまで待つ
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.8f);
 
             //ジャンプを終了する
             isjumping = false;
@@ -278,6 +278,13 @@ public class PlayerController : MonoBehaviour
    /// </summary>
     private void ClingingCliff()
     {
+        //既に崖からジャンプしたなら
+        if(jumped)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
         //攻撃のアニメーションを止める
         animator.SetBool("Attack", false);
 
@@ -290,8 +297,8 @@ public class PlayerController : MonoBehaviour
         //崖にしがみつくアニメーションを行う
         animator.SetBool("Cliff", true);
 
-        //ジャンプキーが押されて、まだジャンプしていないなら
-        if (Input.GetAxis("Vertical") > 0&&!jumped)
+        //ジャンプキーが押されたら
+        if (Input.GetAxis("Vertical") > 0)
         {
             //TODO:GameDataから「崖から復活するときのジャンプ力」を取得する処理
 

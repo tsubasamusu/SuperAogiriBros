@@ -11,9 +11,6 @@ public class NPCController : MonoBehaviour
     private float npcMoveSpeed;//移動速度（仮）
 
     [SerializeField]
-    private float jumpPower;//ジャンプの力（仮）
-
-    [SerializeField]
     private GameObject attackPoint;//攻撃位置
 
     [SerializeField]
