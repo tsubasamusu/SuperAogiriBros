@@ -7,12 +7,12 @@ public class CharacterHealth : MonoBehaviour
     [SerializeField]
     private Rigidbody rb;//Rigidbody
 
-    [SerializeField]
-    private Transform forceTran;//吹っ飛ばされる時に力を加える位置
-
     private float damage=0f;//蓄積ダメージ（初期値は0）
 
     private float forcePower;//吹っ飛ばされる時に加わる力の大きさ
+
+    [SerializeField]
+    private float powerRatio;//ダメージ比率（仮）
 
     /// <summary>
     /// 他のコライダーがすり抜けた際に呼び出される
@@ -24,19 +24,25 @@ public class CharacterHealth : MonoBehaviour
         if(other.gameObject.CompareTag("AttackPoint"))
         {
             //攻撃を受けた際の処理を行う
-            Attacked();
+            Attacked(other.transform);
+
+            Debug.Log("attacked");
         }
     }
 
     /// <summary>
-    /// 攻撃された際の処理
+    /// 攻撃された際の処理を行う
     /// </summary>
-    private void Attacked()
+    /// <param name="enemyTran">攻撃相手の位置情報</param>
+    private void Attacked(Transform enemyTran)
     {
         //ダメージを増やす
         damage += 10f;
 
+        //TODO:GameDataから「ダメージ比率」を取得する処理
 
+        //力を加える
+        rb.AddForce(enemyTran.forward * damage * powerRatio, ForceMode.Impulse);
     }
 
     /// <summary>
