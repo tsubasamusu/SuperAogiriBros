@@ -54308,7 +54308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3000
   jumpPower: 4000
-  specialJumpPower: 100000
+  jumpHeight: 5
   maxCliffTime: 5
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
@@ -63256,7 +63256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3000
   jumpPower: 4000
-  specialJumpPower: 100000
+  jumpHeight: 5
   maxCliffTime: 5
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}

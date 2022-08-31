@@ -117,6 +117,13 @@ public class NPCController : MonoBehaviour
         //–³ŒÀ‚ÉŒJ‚è•Ô‚·
         while(true)
         {
+            //“G‚ªŠù‚É€–S‚µ‚½‚È‚ç
+            if(enemyTran==null)
+            {
+                //ˆÈ~‚Ìˆ—‚ğs‚í‚È‚¢
+                yield return null;
+            }
+
             //ˆÚ“®‚·‚é
             rb.AddForce(transform.forward * currentMoveSpeed);
 

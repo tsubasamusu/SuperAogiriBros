@@ -1,5 +1,6 @@
 using System.Collections;//IEnumeratorを使用
 using UnityEngine;
+using DG.Tweening;//DOTweenを使用
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private float jumpPower;//ジャンプの力（仮）
 
     [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
-    private float specialJumpPower;//崖から復活するときのジャンプ力（仮）
+    private float jumpHeight;//崖から復活するときのジャンプの高さ（仮）
 
     [SerializeField, Tooltip("1試合で崖にしがみついていられる総時間")]
     private float maxCliffTime;//1試合で崖にしがみついていられる総時間（仮）
@@ -300,10 +301,10 @@ public class PlayerController : MonoBehaviour
         //ジャンプキーが押されたら
         if (Input.GetAxis("Vertical") > 0)
         {
-            //TODO:GameDataから「崖から復活するときのジャンプ力」を取得する処理
+            //TODO:GameDataから「崖から復活するときのジャンプの高さ」を取得する処理
 
             //ジャンプする
-            rb.AddForce(transform.up * specialJumpPower);
+            transform.DOMoveY(transform.position.y + jumpHeight, 0.5f);
 
             //ジャンプした状態に切り替える
             jumped = true;
@@ -313,7 +314,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //プレイヤーを崖の位置に移動させる
-        transform.position = transform.position.x > 0 ? new Vector3(8.2f, -2f, 0f) : new Vector3(-8.2f, -2f, 0f);
+        transform.position = transform.position.x > 0 ? new Vector3(7.5f, -2f, 0f) : new Vector3(-7.5f, -2f, 0f);
 
         //プレイヤーの向きを崖に合わせる
         transform.eulerAngles = transform.position.x > 0 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
