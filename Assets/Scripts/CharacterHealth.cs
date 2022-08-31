@@ -7,12 +7,26 @@ public class CharacterHealth : MonoBehaviour
     [SerializeField]
     private Rigidbody rb;//Rigidbody
 
-    private float damage=0f;//蓄積ダメージ（初期値は0）
+    [SerializeField]
+    private CameraController cameraController;//CameraController
 
-    private float forcePower;//吹っ飛ばされる時に加わる力の大きさ
+    private float damage=0f;//蓄積ダメージ（初期値は0）
 
     [SerializeField]
     private float powerRatio;//ダメージ比率（仮）
+
+    /// <summary>
+    /// 毎フレーム呼び出される
+    /// </summary>
+    private void Update()
+    {
+        //自身が試合範囲内にいなかったら
+        if(!CheckGameRange())
+        {
+            //死亡処理を行う
+            KillMe();
+        }
+    }
 
     /// <summary>
     /// 他のコライダーがすり抜けた際に呼び出される
@@ -51,5 +65,34 @@ public class CharacterHealth : MonoBehaviour
     {
         //ダメージの値を返す
         return damage;
+    }
+
+    /// <summary>
+    /// 自身が試合範囲内にいるかどうか調べる
+    /// </summary>
+    /// <returns>自身が試合範囲内にいたらtrue</returns>
+    private bool CheckGameRange()
+    {
+        //自身が試合範囲内にいたら
+        if(transform.position.x<=15f&&transform.position.x>=-15f&& transform.position.y <= 7f && transform.position.y >= -7f)
+        {
+            //trueを返す
+            return true;
+        }
+
+        //falseを返す
+        return false;
+    }
+
+    /// <summary>
+    /// 死亡処理を行う
+    /// </summary>
+    private void KillMe()
+    {
+        //カメラの対象物のリストから自身を削除する
+        cameraController.targetTransList.Remove(transform);
+
+        //自身を消す
+        Destroy(gameObject);
     }
 }

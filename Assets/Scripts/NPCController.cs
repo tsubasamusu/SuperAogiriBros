@@ -38,6 +38,9 @@ public class NPCController : MonoBehaviour
 
         //現在の移動速度を初期値に設定
         currentMoveSpeed = npcMoveSpeed;
+
+        //移動を開始する
+        StartCoroutine(Move());
     }
 
     /// <summary>
@@ -45,6 +48,13 @@ public class NPCController : MonoBehaviour
     /// </summary>
     private void Update()
     {
+        //敵が既に死んでいるなら
+        if(enemyTran==null)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
         //敵が場外にいるなら
         if (enemyTran.position.x > 7f || enemyTran.position.x < -7f)
         {
@@ -99,11 +109,23 @@ public class NPCController : MonoBehaviour
     }
 
     /// <summary>
-    /// 一定時間ごとに呼び出される
+    /// 移動を実行する
     /// </summary>
-    private void FixedUpdate()
+    /// <returns>待ち時間</returns>
+    private IEnumerator Move()
     {
-        rb.AddForce(transform.forward * currentMoveSpeed);
+        //ゲーム開始直後に少し待つ
+        yield return new WaitForSeconds(0.5f);
+
+        //無限に繰り返す
+        while(true)
+        {
+            //移動する
+            rb.AddForce(transform.forward * currentMoveSpeed);
+
+            //一定時間待つ（実質、FixedUpdateメソッド）
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
     }
 
     /// <summary>
