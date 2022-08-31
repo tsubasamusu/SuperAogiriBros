@@ -54369,6 +54369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5635693738244821028}
   cameraController: {fileID: 963194230}
+  attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   powerRatio: 0.1
   damageTime: 0.5
 --- !u!114 &5635693738244821032
@@ -63317,6 +63318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6593712558778912875}
   cameraController: {fileID: 963194230}
+  attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   powerRatio: 0.1
   damageTime: 0.5
 --- !u!114 &6593712558778912879

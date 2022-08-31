@@ -12,6 +12,9 @@ public class CharacterHealth : MonoBehaviour
     private CameraController cameraController;//CameraController
 
     [SerializeField]
+    private GameObject attackEffect;//攻撃が当たった場合のエフェクト
+
+    [SerializeField]
     private float powerRatio;//ダメージ比率（仮）
 
     [SerializeField]
@@ -43,6 +46,9 @@ public class CharacterHealth : MonoBehaviour
         {
             //攻撃を受けた際の処理を行う
             Attacked(other.transform);
+
+            //触れた相手を無効化（重複処理防止）
+            other.gameObject.SetActive(false);
         }
     }
 
@@ -60,13 +66,13 @@ public class CharacterHealth : MonoBehaviour
         //TODO:GameDataから「吹っ飛ばされる時間」を取得する処理
 
         //攻撃相手が自身より左にいるなら
-        if (enemyTran.position.x>transform.position.x)
+        if (enemyTran.position.x > transform.position.x)
         {
             //横に吹っ飛ばされる
-            transform.DOMoveX(transform.position.x - (damage * powerRatio),0.5f);
+            transform.DOMoveX(transform.position.x - (damage * powerRatio), 0.5f);
         }
         //攻撃相手が自身より右にいるなら
-        else if(enemyTran.position.x < transform.position.x)
+        else if (enemyTran.position.x < transform.position.x)
         {
             //吹っ飛ばされる
             transform.DOMoveX(transform.position.x + (damage * powerRatio), 0.5f);
@@ -74,6 +80,12 @@ public class CharacterHealth : MonoBehaviour
 
         //上に吹っ飛ばされる
         transform.DOMoveY(transform.position.y + (damage * powerRatio), 0.5f);
+
+        //エフェクトを生成
+        GameObject effect = Instantiate(attackEffect, enemyTran.position, Quaternion.identity);
+
+        //一定時間後に、生成したエフェクトを消す   
+        Destroy(effect, 1f);
     }
 
     /// <summary>
