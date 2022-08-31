@@ -44,9 +44,9 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 毎フレーム呼び出される
+    /// 一定時間ごとに呼び出される
     /// </summary>
-    private void Update()
+    private void FixedUpdate()
     {
         //崖にしがみついているなら
         if(CheckCliff())

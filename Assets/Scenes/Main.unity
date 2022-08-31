@@ -3209,7 +3209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120f326fc412ebe40bfee9dd31402fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1000
+  moveSpeed: 3000
   jumpPower: 3500
   specialJumpPower: 100000
   maxCliffTime: 5
@@ -57308,7 +57308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120f326fc412ebe40bfee9dd31402fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1000
+  moveSpeed: 3000
   jumpPower: 3500
   specialJumpPower: 100000
   maxCliffTime: 5
@@ -66236,7 +66236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120f326fc412ebe40bfee9dd31402fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1000
+  moveSpeed: 3000
   jumpPower: 3500
   specialJumpPower: 100000
   maxCliffTime: 5

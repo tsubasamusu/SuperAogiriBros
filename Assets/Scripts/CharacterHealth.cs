@@ -25,8 +25,6 @@ public class CharacterHealth : MonoBehaviour
         {
             //UŒ‚‚ğó‚¯‚½Û‚Ìˆ—‚ğs‚¤
             Attacked(other.transform);
-
-            Debug.Log("attacked");
         }
     }
 
