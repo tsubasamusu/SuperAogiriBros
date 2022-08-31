@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
     private float jumpHeight;//崖から復活するときのジャンプの高さ（仮）
 
-    [SerializeField, Tooltip("1試合で崖にしがみついていられる総時間")]
-    private float maxCliffTime;//1試合で崖にしがみついていられる総時間（仮）
+    [SerializeField, Tooltip("崖にしがみついていられる時間")]
+    private float maxCliffTime;//崖にしがみついていられる時間（仮）
 
     [SerializeField]
     private GameObject attackPoint;//攻撃位置
@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
         if(CheckCliff())
         {
             //時間を計測する
-            cliffTimer += Time.deltaTime;
+            cliffTimer += Time.fixedDeltaTime;
 
-            //TODO:GameDataから「1試合で崖にしがみついていられる総時間」を取得する処理
+            //TODO:GameDataから「崖にしがみついていられる時間」を取得する処理
 
             //時間的にまだしがみついていられるなら
             if (cliffTimer < maxCliffTime)
@@ -73,6 +73,9 @@ public class PlayerController : MonoBehaviour
             //以降の処理を行わない
             return;
         }
+
+        //崖にしがみついていられる時間を初期化する
+        cliffTimer = 0f;
 
         //プレーヤーの行動を制御する
         StartCoroutine(ControlMovement());
