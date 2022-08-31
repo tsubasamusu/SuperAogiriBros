@@ -42,46 +42,63 @@ public class PlayerController : MonoBehaviour
     {
         //攻撃位置を無効化
         attackPoint.SetActive(false);
+
+        //プレイヤーの移動を開始する
+        StartCoroutine(Move());
     }
 
     /// <summary>
-    /// 一定時間ごとに呼び出される
+    /// プレイヤーの移動を実行する
     /// </summary>
-    private void FixedUpdate()
+    /// <returns>待ち時間</returns>
+    private IEnumerator Move()
     {
-        //崖にしがみついているなら
-        if(CheckCliff())
+        //0.5秒待つ
+        yield return new WaitForSeconds(0.5f);
+
+        //無限に繰り返す
+        while(true)
         {
-            //時間を計測する
-            cliffTimer += Time.fixedDeltaTime;
-
-            //TODO:GameDataから「崖にしがみついていられる時間」を取得する処理
-
-            //時間的にまだしがみついていられるなら
-            if (cliffTimer < maxCliffTime)
+            //崖にしがみついているなら
+            if (CheckCliff())
             {
-                //崖にしがみつく
-                ClingingCliff();
-            }
-            //しがみついていられる最高時間を超えたら
-            else
-            {
-                //崖にしがみつくアニメーションをやめる
-                animator.SetBool("Cliff", false);
+                //時間を計測する
+                cliffTimer += Time.fixedDeltaTime;
+
+                //TODO:GameDataから「崖にしがみついていられる時間」を取得する処理
+
+                //時間的にまだしがみついていられるなら
+                if (cliffTimer < maxCliffTime)
+                {
+                    //崖にしがみつく
+                    ClingingCliff();
+                }
+                //しがみついていられる最高時間を超えたら
+                else
+                {
+                    //崖にしがみつくアニメーションをやめる
+                    animator.SetBool("Cliff", false);
+                }
+
+                //一定時間待つ（実質、FixedUpdateメソッド）
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+                continue;
             }
 
-            //以降の処理を行わない
-            return;
+            Debug.Log("Move");
+            //崖にしがみついていられる時間を初期化する
+            cliffTimer = 0f;
+
+            //プレーヤーの行動を制御する
+            StartCoroutine(ControlMovement());
+
+            //攻撃以外のアニメーションを制御する
+            ControlAnimation();
+
+            //一定時間待つ（実質、FixedUpdateメソッド）
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
         }
-
-        //崖にしがみついていられる時間を初期化する
-        cliffTimer = 0f;
-
-        //プレーヤーの行動を制御する
-        StartCoroutine(ControlMovement());
-
-        //攻撃以外のアニメーションを制御する
-        ControlAnimation();
     }
 
     /// <summary>
