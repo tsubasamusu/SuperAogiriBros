@@ -29,7 +29,7 @@ public class MashiroController : MonoBehaviour
 
     private float cliffTimer;//崖にしがみついている総時間
 
-    private bool isjumping;//ジャンプしているかどうか
+    private bool isJumping;//ジャンプしているかどうか
 
     private bool isAttack;//攻撃しているかどうか
 
@@ -144,10 +144,10 @@ public class MashiroController : MonoBehaviour
         }
 
         //Wが押され、ジャンプ中ではないなら
-        if (Input.GetKey(KeyCode.W) && !isjumping)
+        if (Input.GetKey(KeyCode.W) && !isJumping)
         {
             //ジャンプ中に切り替える
-            isjumping = true;
+            isJumping = true;
 
             //TODO:GameDataからジャンプ力を取得する処理
 
@@ -158,7 +158,7 @@ public class MashiroController : MonoBehaviour
             yield return new WaitForSeconds(1.8f);
 
             //ジャンプを終了する
-            isjumping = false;
+            isJumping = false;
         }
     }
 
@@ -200,7 +200,7 @@ public class MashiroController : MonoBehaviour
         }
 
         //ジャンプ中なら
-        if (isjumping)
+        if (isJumping)
         {
             //走るアニメーションを止める
             animator.SetBool("Run", false);

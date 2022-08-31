@@ -11,6 +11,9 @@ public class NPCController : MonoBehaviour
     private float npcMoveSpeed;//移動速度（仮）
 
     [SerializeField]
+    private float npcJumpPower;//ジャンプ力（仮）
+
+    [SerializeField]
     private GameObject attackPoint;//攻撃位置
 
     [SerializeField]
@@ -20,6 +23,8 @@ public class NPCController : MonoBehaviour
     private Animator animator;//Animator
 
     private bool isAttack;//攻撃しているかどうか
+
+    private bool isJumping;//ジャンプしているかどうか
 
     private float currentMoveSpeed;//現在の移動速度
 
@@ -65,11 +70,28 @@ public class NPCController : MonoBehaviour
             return;
         }
 
+        //敵が自分の真上or真下にいるなら
+        if (Mathf.Abs(enemyTran.position.x - transform.position.x) <= 0.5f)
+        {
+            //まだジャンプしていないなら
+            if(!isJumping)
+            {
+                //ジャンプする
+                StartCoroutine(Jump());
+            }
+
+            //以降の処理を行わない
+            return;
+        }
+
         //敵が攻撃圏内に入り、攻撃中ではないなら
         if (Mathf.Abs(enemyTran.position.x - transform.position.x) < 2f&&!isAttack)
         {
             //走るアニメーションを止める
             animator.SetBool("Run", false);
+
+            //ジャンプのアニメーションを止める
+            animator.SetBool("Jump", false);
 
             //NPCの動きを止める
             currentMoveSpeed = 0f;
@@ -110,6 +132,33 @@ public class NPCController : MonoBehaviour
             //走るアニメーションを行う
             animator.SetBool("Run", true);
         }
+    }
+
+    /// <summary>
+    /// ジャンプする
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    private IEnumerator Jump()
+    {
+        //ジャンプ中に切り替える
+        isJumping = true;
+
+        //ジャンプのアニメーションを行う
+        animator.SetBool("Jump", true);
+
+        //TODO:GameDataからジャンプ力を取得する処理
+
+        //ジャンプする
+        rb.AddForce(transform.up * npcJumpPower);
+
+        //完全に離着するまで待つ
+        yield return new WaitForSeconds(1.8f);
+
+        //ジャンプのアニメーションを止める
+        animator.SetBool("Jump", false);
+
+        //ジャンプを終了する
+        isJumping = false;
     }
 
     /// <summary>
