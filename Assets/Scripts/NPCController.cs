@@ -73,6 +73,9 @@ public class NPCController : MonoBehaviour
         //敵が自分の真上or真下にいるなら
         if (Mathf.Abs(enemyTran.position.x - transform.position.x) <= 0.5f)
         {
+            //NPCの動きを止める
+            currentMoveSpeed = 0f;
+
             //まだジャンプしていないなら
             if(!isJumping)
             {
@@ -84,20 +87,31 @@ public class NPCController : MonoBehaviour
             return;
         }
 
-        //敵が攻撃圏内に入り、攻撃中ではないなら
-        if (Mathf.Abs(enemyTran.position.x - transform.position.x) < 2f&&!isAttack)
+        //敵が横方向で攻撃圏内に入っているなら
+        if (Mathf.Abs(enemyTran.position.x - transform.position.x) < 2f)
         {
-            //走るアニメーションを止める
-            animator.SetBool("Run", false);
+            //敵が縦方向で攻撃圏内に入っていなかったら
+            if(enemyTran.position.y<(transform.position.y-2f)&&enemyTran.position.y>(transform.position.y+1f))
+            {
+                //以降の処理を行わない
+                return;
+            }
 
-            //ジャンプのアニメーションを止める
-            animator.SetBool("Jump", false);
+            //攻撃中ではないなら
+            if (!isAttack)
+            {
+                //走るアニメーションを止める
+                animator.SetBool("Run", false);
 
-            //NPCの動きを止める
-            currentMoveSpeed = 0f;
+                //ジャンプのアニメーションを止める
+                animator.SetBool("Jump", false);
 
-            //攻撃する
-            StartCoroutine(Attack());
+                //NPCの動きを止める
+                currentMoveSpeed = 0f;
+
+                //攻撃する
+                StartCoroutine(Attack());
+            }
 
             //以降の処理を行わない
             return;
