@@ -14,6 +14,13 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void FixedUpdate()
     {
+        //対象物が全て消えたら
+        if(targetTransList.Count==0)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
         //カメラの移動位置を取得
         Vector3 pos = new Vector3(GetCenterPos().x, GetCenterPos().y, transform.position.z);
 
