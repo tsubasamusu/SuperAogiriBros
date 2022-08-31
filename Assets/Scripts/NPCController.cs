@@ -97,12 +97,35 @@ public class NPCController : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
         }
 
-        //攻撃中ではないなら
-        if(!isAttack)
+        //攻撃中なら
+        if(isAttack)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
+        //接地しているなら
+        if(CheckGrounded())
         {
             //走るアニメーションを行う
             animator.SetBool("Run", true);
         }
+    }
+
+    /// <summary>
+    /// 接地判定を行う
+    /// </summary>
+    /// <returns>接地していたらtrue</returns>
+    private bool CheckGrounded()
+    {
+        //光線の初期位置と向きを設定
+        Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
+
+        //光線の長さを設定
+        float tolerance = 0.3f;
+
+        //光線の判定を返す
+        return Physics.Raycast(ray, tolerance);
     }
 
     /// <summary>
@@ -120,8 +143,21 @@ public class NPCController : MonoBehaviour
             //敵が既に死亡したなら
             if(enemyTran==null)
             {
-                //以降の処理を行わない
-                yield return null;
+                //一定時間待つ（実質、FixedUpdateメソッド）
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+                //次の繰り返し処理に移る
+                continue;
+            }
+
+            //自身が場外にいるなら
+            if (transform.position.x < -7f || transform.position.x > 7f)
+            {
+                //一定時間待つ（実質、FixedUpdateメソッド）
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+
+                //次の繰り返し処理に移る
+                continue;
             }
 
             //移動する

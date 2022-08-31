@@ -83,10 +83,10 @@ public class PlayerController : MonoBehaviour
                 //一定時間待つ（実質、FixedUpdateメソッド）
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
 
+                //次の繰り返し処理へ飛ばす
                 continue;
             }
 
-            Debug.Log("Move");
             //崖にしがみついていられる時間を初期化する
             cliffTimer = 0f;
 
