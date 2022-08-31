@@ -2,7 +2,7 @@ using System.Collections;//IEnumeratorを使用
 using UnityEngine;
 using DG.Tweening;//DOTweenを使用
 
-public class PlayerController : MonoBehaviour
+public class MashiroController : MonoBehaviour
 {
     [SerializeField]
     private float moveSpeed;//移動速度（仮）
@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpPower;//ジャンプの力（仮）
 
-    [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
+    [SerializeField, Tooltip("崖から復活するときのジャンプ力")]
     private float jumpHeight;//崖から復活するときのジャンプの高さ（仮）
 
     [SerializeField, Tooltip("崖にしがみついていられる時間")]
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         //無限に繰り返す
-        while(true)
+        while (true)
         {
             //崖にしがみついているなら
             if (CheckCliff())
@@ -107,35 +107,44 @@ public class PlayerController : MonoBehaviour
     /// <returns>待ち時間</returns>
     private IEnumerator ControlMovement()
     {
-        //移動方向を取得
-        moveDirection = Input.GetAxis("Horizontal");
-
-        //右方向へ移動するなら
-        if (moveDirection > 0f)
+        //Dが押されている間
+        if (Input.GetKey(KeyCode.D))
         {
             //右を向く
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
+
+            //移動方向を設定
+            moveDirection = 1f;
         }
-        //左方向へ移動するなら
-        else if (moveDirection < 0f)
+        //Aが押されている間
+        else if (Input.GetKey(KeyCode.A))
         {
             //左を向く
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
+
+            //移動方向を設定
+            moveDirection = -1f;
+        }
+        //移動指示がなければ
+        else
+        {
+            //移動しない
+            moveDirection = 0f;
         }
 
         //TODO:GameDataから移動速度を取得する処理
 
         rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * moveSpeed);
 
-        //攻撃キーが押され、攻撃中ではないなら
-        if (Input.GetAxis("Vertical") < 0f && !isAttack)
+        //Sが押され、攻撃中ではないなら
+        if (Input.GetKey(KeyCode.S) && !isAttack)
         {
             //攻撃する
             StartCoroutine(Attack());
         }
 
-        //ジャンプキーが押され、ジャンプ中ではないなら
-        if (Input.GetAxis("Vertical") > 0f && !isjumping)
+        //Wが押され、ジャンプ中ではないなら
+        if (Input.GetKey(KeyCode.W) && !isjumping)
         {
             //ジャンプ中に切り替える
             isjumping = true;
@@ -178,7 +187,7 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("Cliff", false);
 
         //攻撃中なら
-        if(isAttack)
+        if (isAttack)
         {
             //ジャンプのアニメーションを止める
             animator.SetBool("Jump", false);
@@ -191,7 +200,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //ジャンプ中なら
-        if(isjumping)
+        if (isjumping)
         {
             //走るアニメーションを止める
             animator.SetBool("Run", false);
@@ -210,7 +219,7 @@ public class PlayerController : MonoBehaviour
         }
 
         //接地していないなら
-        if(!CheckGrounded())
+        if (!CheckGrounded())
         {
             //以降の処理を行わない
             return;
@@ -220,7 +229,7 @@ public class PlayerController : MonoBehaviour
         jumped = false;
 
         //移動キーが押されているなら
-        if(moveDirection!=0f)
+        if (moveDirection != 0f)
         {
             //走るアニメーションを行う
             animator.SetBool("Run", true);
@@ -277,14 +286,14 @@ public class PlayerController : MonoBehaviour
     private bool CheckCliff()
     {
         //プレイヤーが崖より上か下にいるなら
-        if(transform.position.y>-1f||transform.position.y<-3f)
+        if (transform.position.y > -1f || transform.position.y < -3f)
         {
             //以降の処理を行わない
             return false;
         }
 
         //プレイヤーが崖より外側にいるなら
-        if(transform.position.x<-9f||transform.position.x>9f)
+        if (transform.position.x < -9f || transform.position.x > 9f)
         {
             //以降の処理を行わない
             return false;
@@ -294,13 +303,13 @@ public class PlayerController : MonoBehaviour
         return true;
     }
 
-   /// <summary>
-   /// 崖にしがみつく
-   /// </summary>
+    /// <summary>
+    /// 崖にしがみつく
+    /// </summary>
     private void ClingingCliff()
     {
         //既に崖からジャンプしたなら
-        if(jumped)
+        if (jumped)
         {
             //以降の処理を行わない
             return;
@@ -318,8 +327,8 @@ public class PlayerController : MonoBehaviour
         //崖にしがみつくアニメーションを行う
         animator.SetBool("Cliff", true);
 
-        //ジャンプキーが押されたら
-        if (Input.GetAxis("Vertical") > 0)
+        //Wが押されたら
+        if (Input.GetKey(KeyCode.W))
         {
             //TODO:GameDataから「崖から復活するときのジャンプの高さ」を取得する処理
 
@@ -340,3 +349,4 @@ public class PlayerController : MonoBehaviour
         transform.eulerAngles = transform.position.x > 0 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
     }
 }
+
