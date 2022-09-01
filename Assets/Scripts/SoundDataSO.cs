@@ -8,9 +8,9 @@ using System;//Serializable属性を使用
 public class SoundDataSO : ScriptableObject
 {
     /// <summary>
-    /// BGMの種類
+    /// BGMの名前
     /// </summary>
-    public enum BgmType
+    public enum BgmName
     {
         Main,//試合以外で流れるBGM
         Game//試合中に流れるBGM
@@ -22,7 +22,7 @@ public class SoundDataSO : ScriptableObject
     [Serializable]
     public class BgmData
     {　　　　　　　　
-        public BgmType bgmType;//BGMの種類
+        public BgmName bgmType;//BGMの名前
         public AudioClip clip;//クリップ
     }
 
@@ -35,9 +35,10 @@ public class SoundDataSO : ScriptableObject
     public enum SoundEffectName
     {
         Select,//選択音
-        MashiroName,//真白の名前
-        TamakoName,//魂子の名前
-
+        Cliff,//崖に掴まるときの音
+        jump,//ジャンプするときの音
+        Explosion,//爆発音
+        Dead,//死亡音
     }
 
     /// <summary>
@@ -52,4 +53,30 @@ public class SoundDataSO : ScriptableObject
 
     //効果音のデータのリスト
     public List <SoundEffectData> soundEffectDataList = new List<SoundEffectData>();
+
+    /// <summary>
+    /// 音声の名前
+    /// </summary>
+    public enum VoiceName
+    {
+        MashiroName,//真白の名前
+        TamakoName,//魂子の名前
+        MashiroVoice,//真白が攻撃するときの声
+        TamakoVoice,//魂子が攻撃する際の声
+        CountDown,//試合開始前のカウントダウン
+        GameSet,//「GaneSet」
+    }
+
+    /// <summary>
+    /// 音声のデータを管理する
+    /// </summary>
+    [Serializable]
+    public class VoiceData
+    {
+        public VoiceName voiceName;//音声の名前
+        public AudioClip clip;//クリップ
+    }
+
+    //音声のデータのリスト
+    public List<VoiceData> voiceDataList = new List<VoiceData>();
 }
