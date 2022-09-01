@@ -55014,6 +55014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 5635693738244821028}
   cameraController: {fileID: 963194230}
+  gameManager: {fileID: 1982207885}
   attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   parentTran: {fileID: 1801310555}
   deadEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
@@ -63947,6 +63948,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 6593712558778912875}
   cameraController: {fileID: 963194230}
+  gameManager: {fileID: 1982207885}
   attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   parentTran: {fileID: 1801310555}
   deadEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}

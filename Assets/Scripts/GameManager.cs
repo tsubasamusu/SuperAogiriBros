@@ -1,6 +1,7 @@
 using System.Collections;//IEnumeratorを使用
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;//LoadSceneメソッドを使用
 
 public class GameManager : MonoBehaviour
 {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
     /// <returns>待ち時間</returns>
     private IEnumerator Start()
     {
+        //マウスカーソルを非表示にする
+        uIManager.HideCursor();
+
         //キャラクター用のスクリプトの初期設定を行う
         SetUpCharaScripts();
 
@@ -200,5 +204,27 @@ public class GameManager : MonoBehaviour
 
         //試合前のカウントダウンが終わるまで待つ
         yield return StartCoroutine(uIManager.CountDown());
+    }
+
+    /// <summary>
+    /// ゲーム終了の準備を行う
+    /// </summary>
+    public void SetUpEndGame()
+    {
+        //ゲームを終了する
+        StartCoroutine(EndGame());
+    }
+
+    /// <summary>
+    /// ゲームを終了する
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    private IEnumerator EndGame()
+    {
+        //ゲーム終了演出が終わるまで待つ
+        yield return StartCoroutine(uIManager.EndGame());
+
+        //Mainシーンを読み込む
+        SceneManager.LoadScene("Main");
     }
 }

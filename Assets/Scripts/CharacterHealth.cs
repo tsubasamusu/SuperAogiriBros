@@ -12,6 +12,9 @@ public class CharacterHealth : MonoBehaviour
     private CameraController cameraController;//CameraController
 
     [SerializeField]
+    private GameManager gameManager;//GameManager
+
+    [SerializeField]
     private GameObject attackEffect;//攻撃が当たった際のエフェクト（仮）
 
     [SerializeField]
@@ -135,6 +138,9 @@ public class CharacterHealth : MonoBehaviour
 
         //一定時間後に、生成したエフェクトを消す   
         Destroy(effect, 1f);
+
+        //ゲーム終了の準備を行う
+        gameManager.SetUpEndGame();
 
         //カメラの対象物のリストから自身を削除する
         cameraController.targetTransList.Remove(transform);
