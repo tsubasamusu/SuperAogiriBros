@@ -82,16 +82,9 @@ public class NPCController : MonoBehaviour
             return;
         }
 
-        //“G‚ª‰¡•ûŒü‚ÅUŒ‚Œ—“à‚É“ü‚Á‚Ä‚¢‚é‚È‚ç
-        if (Mathf.Abs(enemyTran.position.x - transform.position.x) < 2f)
+        //“G‚ªUŒ‚Œ—“à‚É“ü‚Á‚Ä‚¢‚é‚È‚ç
+        if (Mathf.Abs(enemyTran.position.x - transform.position.x) < 2f&&Mathf.Abs(enemyTran.position.y-transform.position.y)<2)
         {
-            //“G‚ªc•ûŒü‚ÅUŒ‚Œ—“à‚É“ü‚Á‚Ä‚¢‚È‚©‚Á‚½‚ç
-            if(enemyTran.position.y<(transform.position.y-2f)&&enemyTran.position.y>(transform.position.y+1f))
-            {
-                //ˆÈ~‚Ìˆ—‚ğs‚í‚È‚¢
-                return;
-            }
-
             //UŒ‚’†‚Å‚Í‚È‚¢‚È‚ç
             if (!isAttack)
             {
