@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: SoundDataSO
   m_EditorClassIdentifier: 
   bgmDataList:
-  - bgmType: 0
+  - bgmName: 0
     clip: {fileID: 8300000, guid: 07faee1543c18f84d9b4c595bcc31f6b, type: 3}
-  - bgmType: 1
+  - bgmName: 1
     clip: {fileID: 8300000, guid: 7057a1e75e071344689ea64c6ac4256c, type: 3}
   soundEffectDataList:
   - soundEffectName: 0

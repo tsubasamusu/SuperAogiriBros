@@ -10,7 +10,10 @@ public class SoundManager : MonoBehaviour
     private SoundDataSO soundDataSO;//SoundDataSO
 
     [SerializeField]
-    private AudioSource audioSource;//AudioSource
+    private AudioSource mainAudioSource;//メインのAudioSource
+
+    [SerializeField]
+    private AudioSource subAudioSource;//サブのAudioSource
 
     /// <summary>
     /// Startメソッドより前に呼び出される
@@ -73,19 +76,22 @@ public class SoundManager : MonoBehaviour
         if(loop==true)
         {
             //クリップを設定
-            audioSource.clip= clip;
+            mainAudioSource.clip= clip;
 
             //繰り返すように設定
-            audioSource.loop= loop;
+            mainAudioSource.loop= loop;
 
-            //以降の処理を行わない
-            return audioSource;
+            //音を再生
+            mainAudioSource.Play();
+
+            //メインのAudioSourceを返す
+            return mainAudioSource;
         }
 
         //音を再生する
-        audioSource.PlayOneShot(clip);
+        subAudioSource.PlayOneShot(clip);
 
         //使用したAudioSourceを返す
-        return audioSource;
+        return subAudioSource;
     }
 }

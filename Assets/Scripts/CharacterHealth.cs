@@ -71,6 +71,9 @@ public class CharacterHealth : MonoBehaviour
         //ダメージを増やす
         damage += 10f;
 
+        //効果音を再生
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Explosion).clip);
+
         //攻撃相手が自身より左にいるなら
         if (enemyTran.position.x > transform.position.x)
         {
@@ -126,6 +129,9 @@ public class CharacterHealth : MonoBehaviour
     /// </summary>
     private void KillMe()
     {
+        //効果音を再生
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Dead).clip);
+
         //エフェクトを生成
         GameObject effect = Instantiate(GameData.instance.deadEffect,transform.position,Quaternion.identity,parentTran);
 

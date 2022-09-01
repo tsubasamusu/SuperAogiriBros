@@ -23,6 +23,8 @@ public class MashiroController : MonoBehaviour
 
     private bool jumped;//崖からジャンプしたかどうか
 
+    private bool soundFlag;//崖の効果音用
+
     /// <summary>
     /// ゲーム開始直後に呼び出される
     /// </summary>
@@ -72,6 +74,9 @@ public class MashiroController : MonoBehaviour
                 //次の繰り返し処理へ飛ばす
                 continue;
             }
+
+            //soundFlagにfalseを入れる
+            soundFlag = false;
 
             //崖にしがみついていられる時間を初期化する
             cliffTimer = 0f;
@@ -132,6 +137,9 @@ public class MashiroController : MonoBehaviour
         {
             //ジャンプ中に切り替える
             isJumping = true;
+
+            //効果音を再生
+            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
 
             //ジャンプする
             rb.AddForce(transform.up * GameData.instance.jumpPower);
@@ -236,6 +244,9 @@ public class MashiroController : MonoBehaviour
         //攻撃中に切り替える
         isAttack = true;
 
+        //音声を再生
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroVoice).clip);
+
         //攻撃アニメーションを行う
         animator.SetBool("Attack", true);
 
@@ -297,6 +308,16 @@ public class MashiroController : MonoBehaviour
             return;
         }
 
+        //soundFlagがfalseなら
+        if (!soundFlag)
+        {
+            //効果音を再生
+            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
+
+            //soundFlagにtrueを入れる
+            soundFlag = true;
+        }
+
         //攻撃のアニメーションを止める
         animator.SetBool("Attack", false);
 
@@ -312,6 +333,9 @@ public class MashiroController : MonoBehaviour
         //Wが押されたら
         if (Input.GetKey(KeyCode.W))
         {
+            //効果音を再生
+            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+
             //ジャンプする
             transform.DOMoveY(transform.position.y + GameData.instance.jumpHeight, 0.5f);
 
