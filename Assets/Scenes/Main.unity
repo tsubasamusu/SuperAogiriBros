@@ -1354,7 +1354,7 @@ MonoBehaviour:
   txtMessage: {fileID: 891675591}
   sprTitle: {fileID: 21300000, guid: 470bef5281dbe684abcef0f59bd86f58, type: 3}
   sprModeSelect: {fileID: 21300000, guid: ff5df302d936995499bab3649eecfce3, type: 3}
-  sprCharaSelect: {fileID: 21300000, guid: a464e15bc7dc03b4f9304398fe2aac89, type: 3}
+  sprCharaSelect: {fileID: 21300000, guid: 039151182cde82e4bb464d0b93996cb8, type: 3}
 --- !u!4 &1609985837
 Transform:
   m_ObjectHideFlags: 0
