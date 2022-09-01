@@ -5,18 +5,6 @@ using DG.Tweening;//DOTweenを使用
 public class TamakoController : MonoBehaviour
 {
     [SerializeField]
-    private float moveSpeed;//移動速度（仮）
-
-    [SerializeField]
-    private float jumpPower;//ジャンプの力（仮）
-
-    [SerializeField,Tooltip("崖から復活するときのジャンプ力")]
-    private float jumpHeight;//崖から復活するときのジャンプの高さ（仮）
-
-    [SerializeField, Tooltip("崖にしがみついていられる時間")]
-    private float maxCliffTime;//崖にしがみついていられる時間（仮）
-
-    [SerializeField]
     private GameObject attackPoint;//攻撃位置
 
     [SerializeField]
@@ -65,10 +53,8 @@ public class TamakoController : MonoBehaviour
                 //時間を計測する
                 cliffTimer += Time.fixedDeltaTime;
 
-                //TODO:GameDataから「崖にしがみついていられる時間」を取得する処理
-
                 //時間的にまだしがみついていられるなら
-                if (cliffTimer < maxCliffTime)
+                if (cliffTimer < GameData.instance.maxCliffTime)
                 {
                     //崖にしがみつく
                     ClingingCliff();
@@ -132,9 +118,7 @@ public class TamakoController : MonoBehaviour
             moveDirection = 0f;
         }
 
-        //TODO:GameDataから移動速度を取得する処理
-
-        rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * moveSpeed);
+        rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * GameData.instance.moveSpeed);
 
         //下矢印が押され、攻撃中ではないなら
         if (Input.GetKey(KeyCode.DownArrow)  && !isAttack)
@@ -149,10 +133,8 @@ public class TamakoController : MonoBehaviour
             //ジャンプ中に切り替える
             isjumping = true;
 
-            //TODO:GameDataからジャンプ力を取得する処理
-
             //ジャンプする
-            rb.AddForce(transform.up * jumpPower);
+            rb.AddForce(transform.up * GameData.instance.jumpPower);
 
             //完全に離着するまで待つ
             yield return new WaitForSeconds(1.8f);
@@ -330,10 +312,8 @@ public class TamakoController : MonoBehaviour
         //上矢印が押されたら
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            //TODO:GameDataから「崖から復活するときのジャンプの高さ」を取得する処理
-
             //ジャンプする
-            transform.DOMoveY(transform.position.y + jumpHeight, 0.5f);
+            transform.DOMoveY(transform.position.y + GameData.instance.jumpHeight, 0.5f);
 
             //ジャンプした状態に切り替える
             jumped = true;

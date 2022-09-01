@@ -8,12 +8,6 @@ public class NPCController : MonoBehaviour
     private Transform enemyTran;//敵の位置情報
 
     [SerializeField]
-    private float npcMoveSpeed;//移動速度（仮）
-
-    [SerializeField]
-    private float npcJumpPower;//ジャンプ力（仮）
-
-    [SerializeField]
     private GameObject attackPoint;//攻撃位置
 
     [SerializeField]
@@ -36,10 +30,8 @@ public class NPCController : MonoBehaviour
         //攻撃位置を無効化
         attackPoint.SetActive(false);
 
-        //TODO:GameDataからnpcMoveSpeedを取得する処理
-
         //現在の移動速度を初期値に設定
-        currentMoveSpeed = npcMoveSpeed;
+        currentMoveSpeed = GameData.instance.npcMoveSpeed;
 
         //移動を開始する
         StartCoroutine(Move());
@@ -118,7 +110,7 @@ public class NPCController : MonoBehaviour
         }
 
         //現在の移動速度を初期値に設定
-        currentMoveSpeed = npcMoveSpeed;
+        currentMoveSpeed = GameData.instance.npcMoveSpeed;
 
         //敵が自身より右にいるなら
         if (enemyTran.position.x < transform.position.x)
@@ -160,10 +152,8 @@ public class NPCController : MonoBehaviour
         //ジャンプのアニメーションを行う
         animator.SetBool("Jump", true);
 
-        //TODO:GameDataからジャンプ力を取得する処理
-
         //ジャンプする
-        rb.AddForce(transform.up * npcJumpPower);
+        rb.AddForce(transform.up * GameData.instance.npcJumpPower);
 
         //完全に離着するまで待つ
         yield return new WaitForSeconds(1.8f);

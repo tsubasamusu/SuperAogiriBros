@@ -15,19 +15,10 @@ public class CharacterHealth : MonoBehaviour
     private GameManager gameManager;//GameManager
 
     [SerializeField]
-    private GameObject attackEffect;//攻撃が当たった際のエフェクト（仮）
-
-    [SerializeField]
     private Transform parentTran;//エフェクトの親
 
     [SerializeField]
-    private GameObject deadEffect;//死ぬ際のエフェクト（仮）
-
-    [SerializeField]
-    private float powerRatio;//ダメージ比率（仮）
-
-    [SerializeField]
-    private float damageTime;//吹っ飛ばされる時間（仮）
+    private GameObject enemy;//敵
 
     private float damage=0f;//蓄積ダメージ（初期値は0）
 
@@ -36,12 +27,22 @@ public class CharacterHealth : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        //自身が試合範囲内にいなかったら
-        if(!CheckGameRange())
+        //自身が試合範囲内にいたら
+        if (CheckGameRange())
         {
-            //死亡処理を行う
-            KillMe();
+            //以降の処理を行わない
+            return;
         }
+
+        //敵が既に死亡しているなら
+        if (enemy == null)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
+        //死亡処理を行う
+        KillMe();
     }
 
     /// <summary>
@@ -70,30 +71,24 @@ public class CharacterHealth : MonoBehaviour
         //ダメージを増やす
         damage += 10f;
 
-        //TODO:GameDataから「ダメージ比率」を取得する処理
-
-        //TODO:GameDataから「吹っ飛ばされる時間」を取得する処理
-
         //攻撃相手が自身より左にいるなら
         if (enemyTran.position.x > transform.position.x)
         {
             //横に吹っ飛ばされる
-            transform.DOMoveX(transform.position.x - (damage * powerRatio), 0.5f);
+            transform.DOMoveX(transform.position.x - (damage * GameData.instance.powerRatio), 0.5f);
         }
         //攻撃相手が自身より右にいるなら
         else if (enemyTran.position.x < transform.position.x)
         {
             //吹っ飛ばされる
-            transform.DOMoveX(transform.position.x + (damage * powerRatio), 0.5f);
+            transform.DOMoveX(transform.position.x + (damage * GameData.instance.powerRatio), 0.5f);
         }
 
         //上に吹っ飛ばされる
-        transform.DOMoveY(transform.position.y + (damage * powerRatio), 0.5f);
-
-        //TODO:GameDataから「攻撃が当たった際のエフェクト」を取得する処理
+        transform.DOMoveY(transform.position.y + (damage * GameData.instance.powerRatio), 0.5f);
 
         //エフェクトを生成
-        GameObject effect = Instantiate(attackEffect, enemyTran.position, Quaternion.identity,parentTran);
+        GameObject effect = Instantiate(GameData.instance.attackEffect, enemyTran.position, Quaternion.identity,parentTran);
 
         //一定時間後に、生成したエフェクトを消す   
         Destroy(effect, 1f);
@@ -131,10 +126,8 @@ public class CharacterHealth : MonoBehaviour
     /// </summary>
     private void KillMe()
     {
-        //TODO:GameDataから死ぬ際のエフェクトを取得する処理
-
         //エフェクトを生成
-        GameObject effect = Instantiate(deadEffect,transform.position,Quaternion.identity,parentTran);
+        GameObject effect = Instantiate(GameData.instance.deadEffect,transform.position,Quaternion.identity,parentTran);
 
         //一定時間後に、生成したエフェクトを消す   
         Destroy(effect, 1f);

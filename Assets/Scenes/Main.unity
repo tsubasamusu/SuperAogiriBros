@@ -1339,6 +1339,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607040893ad4bd04cbf3b165dcd65723, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
+  deadEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
+  powerRatio: 0.1
+  damageTime: 0.5
+  moveSpeed: 3000
+  jumpPower: 4000
+  jumpHeight: 5
+  maxCliffTime: 5
+  npcMoveSpeed: 2000
+  npcJumpPower: 4000
 --- !u!4 &2127174148
 Transform:
   m_ObjectHideFlags: 0
@@ -54995,10 +55005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120f326fc412ebe40bfee9dd31402fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3000
-  jumpPower: 4000
-  jumpHeight: 5
-  maxCliffTime: 5
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
@@ -55059,11 +55065,8 @@ MonoBehaviour:
   rb: {fileID: 5635693738244821028}
   cameraController: {fileID: 963194230}
   gameManager: {fileID: 1982207885}
-  attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   parentTran: {fileID: 1801310555}
-  deadEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
-  powerRatio: 0.1
-  damageTime: 0.5
+  enemy: {fileID: 6593712558778912873}
 --- !u!114 &5635693738244821032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55077,8 +55080,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTran: {fileID: 5821538103671442131}
-  npcMoveSpeed: 2000
-  npcJumpPower: 4000
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
@@ -63993,11 +63994,8 @@ MonoBehaviour:
   rb: {fileID: 6593712558778912875}
   cameraController: {fileID: 963194230}
   gameManager: {fileID: 1982207885}
-  attackEffect: {fileID: 1828176872806910, guid: 64891a0eb28db934898420d80ca07cb3, type: 3}
   parentTran: {fileID: 1801310555}
-  deadEffect: {fileID: 1329845292236604, guid: 9bba9cf244c53c5439505dfc96fdd11c, type: 3}
-  powerRatio: 0.1
-  damageTime: 0.5
+  enemy: {fileID: 5007388382381836952}
 --- !u!114 &6593712558778912879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64011,8 +64009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyTran: {fileID: 5635693738244821026}
-  npcMoveSpeed: 2000
-  npcJumpPower: 4000
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
@@ -64028,10 +64024,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1be729fdf8b8e5469547c6736905781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3000
-  jumpPower: 4000
-  jumpHeight: 5
-  maxCliffTime: 5
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
