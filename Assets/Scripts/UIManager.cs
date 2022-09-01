@@ -29,25 +29,6 @@ public class UIManager : MonoBehaviour
 
     private float time = 3.5f;//カウントダウン用
 
-    private IEnumerator Start()
-    {
-        yield return StartCoroutine(PlayGameStart());
-
-        yield return StartCoroutine(SetModeSelect());
-
-        yield return StartCoroutine(SetCharaSelect());
-
-        yield return StartCoroutine(GoToGame());
-
-        yield return StartCoroutine(CountDown());
-
-        Debug.Log("GameStart");
-
-        yield return StartCoroutine(EndGame());
-
-        Debug.Log("End");
-    }
-
     /// <summary>
     /// ゲームスタート演出を行う
     /// </summary>
@@ -192,5 +173,14 @@ public class UIManager : MonoBehaviour
 
         //演出が終わるまで待つ
         yield return new WaitUntil(() => end);
+    }
+
+    /// <summary>
+    /// マウスカーソルを非表示にする
+    /// </summary>
+    public void HideCursor()
+    {
+        //マウスカーソルを非表示にする
+        Cursor.visible = false;
     }
 }
