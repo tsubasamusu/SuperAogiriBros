@@ -220,7 +220,7 @@ RectTransform:
   - {fileID: 325591551}
   - {fileID: 891675590}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -996,7 +996,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1555192729
 Transform:
   m_ObjectHideFlags: 0
@@ -1063,7 +1063,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1801310554
 GameObject:
@@ -1291,7 +1291,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1982207885
 MonoBehaviour:
@@ -1305,6 +1305,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e9495cff8258544b84a94bd76c9244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uIManager: {fileID: 1609985836}
+  tamakoController: {fileID: 5635693738244821027}
+  mashiroController: {fileID: 6593712558778912880}
+  tamakoNpcController: {fileID: 5635693738244821032}
+  mashiroNpcController: {fileID: 6593712558778912879}
 --- !u!4 &821540975708591
 Transform:
   m_ObjectHideFlags: 0
