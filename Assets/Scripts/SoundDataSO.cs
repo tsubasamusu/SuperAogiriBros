@@ -34,6 +34,9 @@ public class SoundDataSO : ScriptableObject
     /// </summary>
     public enum SoundEffectName
     {
+        Select,//選択音
+        MashiroName,//真白の名前
+        TamakoName,//魂子の名前
 
     }
 
