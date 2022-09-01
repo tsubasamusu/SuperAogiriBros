@@ -22,7 +22,7 @@ public class SoundDataSO : ScriptableObject
     [Serializable]
     public class BgmData
     {　　　　　　　　
-        public BgmName bgmType;//BGMの名前
+        public BgmName bgmName;//BGMの名前
         public AudioClip clip;//クリップ
     }
 

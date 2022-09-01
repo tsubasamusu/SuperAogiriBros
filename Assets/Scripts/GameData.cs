@@ -6,7 +6,7 @@ public class GameData : MonoBehaviour
 {
     public static GameData instance;//インスタンス
 
-public GameObject attackEffect;//攻撃が当たった際のエフェクト
+    public GameObject attackEffect;//攻撃が当たった際のエフェクト
 
     public GameObject deadEffect;//死ぬ際のエフェクト
 
@@ -37,7 +37,6 @@ public GameObject attackEffect;//攻撃が当たった際のエフェクト
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
