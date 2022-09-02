@@ -1,6 +1,7 @@
 using System.Collections;//IEnumeratorを使用
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;//DOTweenを使用
 
 public class NPCController : MonoBehaviour
 {
@@ -24,6 +25,10 @@ public class NPCController : MonoBehaviour
     private bool isJumping;//ジャンプしているかどうか
 
     private float currentMoveSpeed;//現在の移動速度
+
+    private bool soundFlag;//ジャンプの効果音用
+
+    private bool jumped;//崖からジャンプしたかどうか
 
     /// <summary>
     /// ゲーム開始直後に呼び出される
@@ -52,8 +57,17 @@ public class NPCController : MonoBehaviour
             return;
         }
 
+        //崖にしがみついているなら
+        if(CheckCliff())
+        {
+            StartCoroutine(ClingingCliff());
+
+            //以降の処理を行わない
+            return;
+        }
+
         //敵が場外にいるなら
-        if (enemyTran.position.x > 7f || enemyTran.position.x < -7f)
+        if (Mathf.Abs(enemyTran.position.x)>7f)
         {
             //NPCの動きを止める
             currentMoveSpeed = 0f;
@@ -131,6 +145,12 @@ public class NPCController : MonoBehaviour
         //接地しているなら
         if(CheckGrounded())
         {
+            //soundflagにfalseを入れる
+            soundFlag = false;
+
+            //崖からジャンプしていない状態に切り替える
+            jumped = false;
+
             //走るアニメーションを行う
             animator.SetBool("Run", true);
         }
@@ -203,7 +223,7 @@ public class NPCController : MonoBehaviour
             }
 
             //自身が場外にいるなら
-            if (transform.position.x < -7f || transform.position.x > 7f)
+            if (Mathf.Abs(transform.position.x)>7f&&transform.position.y<0f)
             {
                 //一定時間待つ（実質、FixedUpdateメソッド）
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
@@ -255,6 +275,94 @@ public class NPCController : MonoBehaviour
 
         //攻撃を終了する
         isAttack = false;
+    }
+
+    /// <summary>
+    /// 崖にしがみついているかどうか調べる
+    /// </summary>
+    /// <returns>崖にしがみついていたらtrue</returns>
+    private bool CheckCliff()
+    {
+        //プレイヤーが崖より上か下にいるなら
+        if (transform.position.y > -1f || transform.position.y < -3f)
+        {
+            //以降の処理を行わない
+            return false;
+        }
+
+        //プレイヤーが崖より外側にいるなら
+        if (transform.position.x < -9f || transform.position.x > 9f)
+        {
+            //以降の処理を行わない
+            return false;
+        }
+
+        //trueを返す
+        return true;
+    }
+
+    /// <summary>
+    /// 崖にしがみつく
+    /// </summary>
+    /// <returns>待ち時間</returns>
+    private IEnumerator ClingingCliff()
+    {
+        //既に崖からジャンプしたなら
+        if (jumped)
+        {
+            //以降の処理を行わない
+            yield break;
+        }
+
+        //soundFlagがfalseなら
+        if (!soundFlag)
+        {
+            //効果音を再生
+            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
+
+            //soundFlagにtrueを入れる
+            soundFlag = true;
+        }
+
+        //攻撃のアニメーションを止める
+        animator.SetBool("Attack", false);
+
+        //ジャンプのアニメーションを止める
+        animator.SetBool("Jump", false);
+
+        //走るアニメーションを止める
+        animator.SetBool("Run", false);
+
+        //崖にしがみつくアニメーションを行う
+        animator.SetBool("Cliff", true);
+
+        //キャラクターを崖の位置に移動させる
+        transform.position = transform.position.x > 0 ? new Vector3(7.5f, -2f, 0f) : new Vector3(-7.5f, -2f, 0f);
+
+        //キャラクターの向きを崖に合わせる
+        transform.eulerAngles = transform.position.x > 0 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
+
+        //1秒待つ
+        yield return new WaitForSeconds(1f);
+
+        //まだ崖からジャンプしていないなら
+        if (!jumped)
+        {
+            //効果音を再生
+            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+
+            //ジャンプする
+            transform.DOMoveY(transform.position.y + GameData.instance.jumpHeight, 0.5f);
+
+            //崖にしがみつアニメーションを止める
+            animator.SetBool("Cliff", false);
+
+            ///ジャンプのアニメーションを行う
+            animator.SetBool("Jump", true);
+
+            //ジャンプした状態に切り替える
+            jumped = true;
+        }
     }
 
     /// <summary>

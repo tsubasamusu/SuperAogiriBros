@@ -273,7 +273,7 @@ public class MashiroController : MonoBehaviour
     }
 
     /// <summary>
-    /// ŠR‚É‚µ‚ª‚İ‚Â‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚ÄAŠR‚É‚µ‚ª‚İ‚Â‚­ˆ—‚ğs‚¤
+    /// ŠR‚É‚µ‚ª‚İ‚Â‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©’²‚×‚é
     /// </summary>
     /// <returns>ŠR‚É‚µ‚ª‚İ‚Â‚¢‚Ä‚¢‚½‚çtrue</returns>
     private bool CheckCliff()
