@@ -1331,6 +1331,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a5068440599814bb63318eea51831e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  charaDataList:
+  - charaName: 0
+    keyType: 0
+    key: 273
+  - charaName: 0
+    keyType: 1
+    key: 274
+  - charaName: 0
+    keyType: 2
+    key: 275
+  - charaName: 0
+    keyType: 3
+    key: 276
+  - charaName: 1
+    keyType: 0
+    key: 119
+  - charaName: 1
+    keyType: 1
+    key: 115
+  - charaName: 1
+    keyType: 2
+    key: 100
+  - charaName: 1
+    keyType: 3
+    key: 97
 --- !u!1 &1555192728
 GameObject:
   m_ObjectHideFlags: 0
