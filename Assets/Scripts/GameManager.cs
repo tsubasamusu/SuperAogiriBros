@@ -10,12 +10,6 @@ public class GameManager : MonoBehaviour
     private UIManager uIManager;//UIManager
 
     [SerializeField]
-    private TamakoController tamakoController;//TamakoController
-
-    [SerializeField]
-    private MashiroController mashiroController;//MashiroController
-
-    [SerializeField]
     private NPCController tamakoNpcController;//魂子用のNPCController
 
     [SerializeField]
@@ -88,11 +82,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetUpCharaScripts()
     {
-        //TamakoControllerを無効化
-        tamakoController.enabled = false;
+        ////TamakoControllerを無効化
+        //tamakoController.enabled = false;
 
-        //MashiroControllerを無効化
-        mashiroController.enabled=false;
+        ////MashiroControllerを無効化
+        //mashiroController.enabled=false;
 
         //魂子用のNPCControllerを無効化
         tamakoNpcController.enabled = false;
@@ -109,11 +103,11 @@ public class GameManager : MonoBehaviour
         //デュオなら
         if(!isSolo)
         {
-            //TamakoControllerを有効化
-            tamakoController.enabled = true;
+            ////TamakoControllerを有効化
+            //tamakoController.enabled = true;
 
-            //MashiroControllerを有効化
-            mashiroController.enabled = true;
+            ////MashiroControllerを有効化
+            //mashiroController.enabled = true;
 
             //以降の処理を行わない
             return;
@@ -122,8 +116,8 @@ public class GameManager : MonoBehaviour
         //ソロプレーヤーが真白を使用するなら
         if (useMashiro)
         {
-            //MashiroControllerを有効化
-            mashiroController.enabled = true;
+            ////MashiroControllerを有効化
+            //mashiroController.enabled = true;
 
             //魂子用のNPCControllerを有効化
             tamakoNpcController.enabled = true;
@@ -131,8 +125,8 @@ public class GameManager : MonoBehaviour
         //ソロプレーヤーが魂子を使用するなら
         else
         {
-            //TamakoControllerを有効化
-            tamakoController.enabled = true;
+            ////TamakoControllerを有効化
+            //tamakoController.enabled = true;
 
             //真白用のNPCControllerを有効化
             mashiroNpcController.enabled = true;

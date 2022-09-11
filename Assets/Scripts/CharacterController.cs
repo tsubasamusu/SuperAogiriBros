@@ -2,7 +2,7 @@ using System.Collections;//IEnumeratorを使用
 using UnityEngine;
 using DG.Tweening;//DOTweenを使用
 
-public class MashiroController : MonoBehaviour
+public class CharacterController : MonoBehaviour
 {
     [SerializeField]
     private GameObject attackPoint;//攻撃位置
@@ -17,7 +17,7 @@ public class MashiroController : MonoBehaviour
 
     private float cliffTimer;//崖にしがみついている総時間
 
-    private bool isJumping;//ジャンプしているかどうか
+    private bool isjumping;//ジャンプしているかどうか
 
     private bool isAttack;//攻撃しているかどうか
 
@@ -47,7 +47,7 @@ public class MashiroController : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         //無限に繰り返す
-        while (true)
+        while(true)
         {
             //崖にしがみついているなら
             if (CheckCliff())
@@ -98,8 +98,8 @@ public class MashiroController : MonoBehaviour
     /// <returns>待ち時間</returns>
     private IEnumerator ControlMovement()
     {
-        //Dが押されている間
-        if (Input.GetKey(KeyCode.D))
+        //右矢印が押されている間
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             //右を向く
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
@@ -107,8 +107,8 @@ public class MashiroController : MonoBehaviour
             //移動方向を設定
             moveDirection = 1f;
         }
-        //Aが押されている間
-        else if (Input.GetKey(KeyCode.A))
+        //左矢印が押されている間
+        else if (Input.GetKey(KeyCode.LeftArrow))
         {
             //左を向く
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
@@ -125,18 +125,18 @@ public class MashiroController : MonoBehaviour
 
         rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * GameData.instance.moveSpeed);
 
-        //Sが押され、攻撃中ではないなら
-        if (Input.GetKey(KeyCode.S) && !isAttack)
+        //下矢印が押され、攻撃中ではないなら
+        if (Input.GetKey(KeyCode.DownArrow)  && !isAttack)
         {
             //攻撃する
             StartCoroutine(Attack());
         }
 
-        //Wが押され、ジャンプ中ではないなら
-        if (Input.GetKey(KeyCode.W) && !isJumping)
+        //上矢印が押され、ジャンプ中ではないなら
+        if (Input.GetKey(KeyCode.UpArrow) && !isjumping)
         {
             //ジャンプ中に切り替える
-            isJumping = true;
+            isjumping = true;
 
             //効果音を再生
             SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
@@ -148,7 +148,7 @@ public class MashiroController : MonoBehaviour
             yield return new WaitForSeconds(1.8f);
 
             //ジャンプを終了する
-            isJumping = false;
+            isjumping = false;
         }
     }
 
@@ -177,7 +177,7 @@ public class MashiroController : MonoBehaviour
         animator.SetBool("Cliff", false);
 
         //攻撃中なら
-        if (isAttack)
+        if(isAttack)
         {
             //ジャンプのアニメーションを止める
             animator.SetBool("Jump", false);
@@ -190,7 +190,7 @@ public class MashiroController : MonoBehaviour
         }
 
         //ジャンプ中なら
-        if (isJumping)
+        if(isjumping)
         {
             //走るアニメーションを止める
             animator.SetBool("Run", false);
@@ -209,7 +209,7 @@ public class MashiroController : MonoBehaviour
         }
 
         //接地していないなら
-        if (!CheckGrounded())
+        if(!CheckGrounded())
         {
             //以降の処理を行わない
             return;
@@ -219,7 +219,7 @@ public class MashiroController : MonoBehaviour
         jumped = false;
 
         //移動キーが押されているなら
-        if (moveDirection != 0f)
+        if(moveDirection!=0f)
         {
             //走るアニメーションを行う
             animator.SetBool("Run", true);
@@ -245,7 +245,7 @@ public class MashiroController : MonoBehaviour
         isAttack = true;
 
         //音声を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroVoice).clip);
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoVoice).clip);
 
         //攻撃アニメーションを行う
         animator.SetBool("Attack", true);
@@ -279,14 +279,14 @@ public class MashiroController : MonoBehaviour
     private bool CheckCliff()
     {
         //プレイヤーが崖より上か下にいるなら
-        if (transform.position.y > -1f || transform.position.y < -3f)
+        if(transform.position.y>-1f||transform.position.y<-3f)
         {
             //以降の処理を行わない
             return false;
         }
 
         //プレイヤーが崖より外側にいるなら
-        if (transform.position.x < -9f || transform.position.x > 9f)
+        if(transform.position.x<-9f||transform.position.x>9f)
         {
             //以降の処理を行わない
             return false;
@@ -296,13 +296,13 @@ public class MashiroController : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// 崖にしがみつく
-    /// </summary>
+   /// <summary>
+   /// 崖にしがみつく
+   /// </summary>
     private void ClingingCliff()
     {
         //既に崖からジャンプしたなら
-        if (jumped)
+        if(jumped)
         {
             //以降の処理を行わない
             return;
@@ -330,8 +330,8 @@ public class MashiroController : MonoBehaviour
         //崖にしがみつくアニメーションを行う
         animator.SetBool("Cliff", true);
 
-        //Wが押されたら
-        if (Input.GetKey(KeyCode.W))
+        //上矢印が押されたら
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             //効果音を再生
             SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
@@ -353,4 +353,3 @@ public class MashiroController : MonoBehaviour
         transform.eulerAngles = transform.position.x > 0 ? new Vector3(0f, -90f, 0f) : new Vector3(0f, 90f, 0f);
     }
 }
-
