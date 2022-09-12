@@ -18,7 +18,7 @@ public class NPCController : MonoBehaviour
     private Animator animator;//Animator
 
     [SerializeField]
-    private string myName;//自分の名前
+    private CharacterManager.CharaName myName;//自分の名前
 
     private bool isAttack;//攻撃しているかどうか
 
@@ -250,7 +250,7 @@ public class NPCController : MonoBehaviour
         isAttack = true;
 
         //音声を再生
-        PlayAttackVoice();
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetCharacterVoiceData(myName).clip);
 
         //攻撃アニメーションを行う
         animator.SetBool("Attack", true);
@@ -363,24 +363,6 @@ public class NPCController : MonoBehaviour
             //ジャンプした状態に切り替える
             jumped = true;
         }
-    }
-
-    /// <summary>
-    /// 攻撃する時の音声を再生する
-    /// </summary>
-    private void PlayAttackVoice()
-    {
-        //音声を再生する
-        SoundManager.instance.PlaySoundByAudioSource
-
-            //自分の名前に応じて引数を変更
-            ( myName == "Tamako" ?
-
-            //魂子の音声を渡す
-            SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoVoice).clip : 
-
-            //真白の音声を渡す
-            SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroVoice).clip);
     }
 }
 

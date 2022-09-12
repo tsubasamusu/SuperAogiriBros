@@ -10,16 +10,13 @@ public class GameManager : MonoBehaviour
     private UIManager uIManager;//UIManager
 
     [SerializeField]
-    private NPCController tamakoNpcController;//魂子用のNPCController
-
-    [SerializeField]
-    private NPCController mashiroNpcController;//真白用のNPCController
+    private CharacterManager characterManager;//CharacterManager
 
     private AudioSource audioSource;//使用しているAudioSource
 
     private bool isSolo;//ソロかどうか
 
-    private bool useMashiro;//ソロプレーヤーが真白を使用するかどうか
+    private bool useTamako;//ソロプレーヤーが魂子を使用するかどうか
 
     /// <summary>
     /// ゲーム開始直後に呼び出される
@@ -27,23 +24,23 @@ public class GameManager : MonoBehaviour
     /// <returns>待ち時間</returns>
     private IEnumerator Start()
     {
+        //全てのコントローラーを非活性化する（試合前にキャラクターが動かないようにするため）
+        SetControllersFalse();
+
         //マウスカーソルを非表示にする
         uIManager.HideCursor();
 
         //BGMを再生
         audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
 
-        //キャラクター用のスクリプトの初期設定を行う
-        SetUpCharaScripts();
-
         //ゲームスタート演出が終わるまで待つ
-        yield return StartCoroutine(uIManager.PlayGameStart());
+        yield return uIManager.PlayGameStart();
 
         //モード選択画面への移行が終わるまで待つ
-        yield return StartCoroutine(uIManager.SetModeSelect());
+        yield return uIManager.SetModeSelect();
 
         //モード選択が終わるまで待つ
-        yield return StartCoroutine(CheckModeSelect());
+        yield return CheckModeSelect();
 
         //デュオなら
         if (!isSolo)
@@ -52,84 +49,73 @@ public class GameManager : MonoBehaviour
             ChangeBgm();
 
             //試合が始まるまで待つ
-            yield return StartCoroutine(StartGame());
+            yield return StartGame();
 
-            //選択されたモード・キャラクターに応じて、キャラクター用のスクリプトの有効化を行う
-            SetCharaScripts();
+            //2回繰り返す
+            for(int i=0;i<2;i++)
+            {
+                //CharacterControllerを活性化する
+                characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled = true;
+
+                //CharacterControllerの初期設定を行う
+                characterManager.GetCharacterController((CharacterManager.CharaName)i).SetUpCharacterController();
+            }
 
             //以降の処理を行わない
             yield break;
         }
 
         //キャラクター選択画面への移行が終わるまで待つ
-        yield return StartCoroutine(uIManager.SetCharaSelect());
+        yield return uIManager.SetCharaSelect();
 
         //キャラクタ選択が終わるまで待つ
-        yield return StartCoroutine(CheckCharaSelect());
+        yield return CheckCharaSelect();
 
         //BGMを切り替える
         ChangeBgm();
 
         //試合が始まるまで待つ
-        yield return StartCoroutine(StartGame());
+        yield return StartGame();
 
-        //選択されたモード・キャラクターに応じて、キャラクター用のスクリプトの有効化を行う
-        SetCharaScripts();
-    }
-
-    /// <summary>
-    /// キャラクター用のスクリプトの初期設定を行う
-    /// </summary>
-    private void SetUpCharaScripts()
-    {
-        ////TamakoControllerを無効化
-        //tamakoController.enabled = false;
-
-        ////MashiroControllerを無効化
-        //mashiroController.enabled=false;
-
-        //魂子用のNPCControllerを無効化
-        tamakoNpcController.enabled = false;
-
-        //真白用のNPCControllerを無効化
-        mashiroNpcController.enabled=false;
-    }
-
-    /// <summary>
-    /// 選択されたモード・キャラクターに応じて、キャラクター用のスクリプトの有効化を行う
-    /// </summary>
-    private void SetCharaScripts()
-    {
-        //デュオなら
-        if(!isSolo)
-        {
-            ////TamakoControllerを有効化
-            //tamakoController.enabled = true;
-
-            ////MashiroControllerを有効化
-            //mashiroController.enabled = true;
-
-            //以降の処理を行わない
-            return;
-        }
-
-        //ソロプレーヤーが真白を使用するなら
-        if (useMashiro)
-        {
-            ////MashiroControllerを有効化
-            //mashiroController.enabled = true;
-
-            //魂子用のNPCControllerを有効化
-            tamakoNpcController.enabled = true;
-        }
         //ソロプレーヤーが魂子を使用するなら
+        if(useTamako)
+        {
+            //魂子のCharacterControllerを活性化する
+            characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).enabled = true;
+
+            //CharacterControllerの初期設定を行う
+            characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).SetUpCharacterController();
+
+            //真白のNPCControllerを活性化する
+            characterManager.GetNpcController(CharacterManager.CharaName.Mashiro).enabled = true;
+        }
+        //ソロプレーヤーが真白を使用するなら
         else
         {
-            ////TamakoControllerを有効化
-            //tamakoController.enabled = true;
+            //真白のCharacterControllerを活性化する
+            characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).enabled = true;
 
-            //真白用のNPCControllerを有効化
-            mashiroNpcController.enabled = true;
+            //CharacterControllerの初期設定を行う
+            characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).SetUpCharacterController();
+
+            //魂子のNPCControllerを活性化する
+            characterManager.GetNpcController(CharacterManager.CharaName.Tamako).enabled = true;
+        }
+    }
+
+    /// <summary>
+    /// 全てのコントローラーを非活性化する
+    /// </summary>
+    private void SetControllersFalse()
+    {
+        //2回繰り返す
+        for(int i = 0; i < 2; i++)
+        {
+            //CharacterControllerを非活性化する
+            characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled=false;
+
+            //NPCControllerを非活性化する
+            characterManager.GetNpcController((CharacterManager.CharaName)i).enabled=false;
         }
     }
 
@@ -191,7 +177,7 @@ public class GameManager : MonoBehaviour
                 PlaySelectSound();
 
                 //選択されたキャラクターを記憶する
-                useMashiro = true;
+                useTamako = false;
 
                 //繰り返し処理を終了する
                 break;
@@ -206,7 +192,7 @@ public class GameManager : MonoBehaviour
                 PlaySelectSound();
 
                 //選択されたキャラクターを記憶する
-                useMashiro = false;
+                useTamako = true;
 
                 //繰り返し処理を終了する
                 break;
@@ -224,13 +210,13 @@ public class GameManager : MonoBehaviour
     private IEnumerator StartGame()
     {
         //試合画面への移行が終わるまで待つ
-        yield return StartCoroutine(uIManager.GoToGame());
+        yield return uIManager.GoToGame();
 
         //音声を再生
         SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.CountDown).clip);
 
         //試合前のカウントダウンが終わるまで待つ
-        yield return StartCoroutine(uIManager.CountDown());
+        yield return uIManager.CountDown();
     }
 
     /// <summary>
@@ -255,7 +241,7 @@ public class GameManager : MonoBehaviour
         audioSource.DOFade(0f, 1f);
 
         //ゲーム終了演出が終わるまで待つ
-        yield return StartCoroutine(uIManager.EndGame());
+        yield return uIManager.EndGame();
 
         //Mainシーンを読み込む
         SceneManager.LoadScene("Main");

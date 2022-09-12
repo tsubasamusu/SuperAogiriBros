@@ -1356,6 +1356,16 @@ MonoBehaviour:
   - charaName: 1
     keyType: 3
     key: 97
+  npcControllerDataList:
+  - charaName: 0
+    npcController: {fileID: 5635693738244821032}
+  - charaName: 1
+    npcController: {fileID: 6593712558778912879}
+  characterControllerDataList:
+  - charaName: 0
+    characterController: {fileID: 5635693738244821027}
+  - charaName: 1
+    characterController: {fileID: 6593712558778912880}
 --- !u!1 &1555192728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,8 +1726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uIManager: {fileID: 1609985836}
-  tamakoNpcController: {fileID: 5635693738244821032}
-  mashiroNpcController: {fileID: 6593712558778912879}
+  characterManager: {fileID: 1457352753}
 --- !u!1 &2127174146
 GameObject:
   m_ObjectHideFlags: 0
@@ -55416,6 +55425,8 @@ MonoBehaviour:
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
+  characterManager: {fileID: 1457352753}
+  myName: 0
 --- !u!54 &5635693738244821028
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -55491,7 +55502,7 @@ MonoBehaviour:
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
-  myName: Tamako
+  myName: 0
 --- !u!1 &5639167391056172746
 GameObject:
   m_ObjectHideFlags: 0
@@ -64421,7 +64432,7 @@ MonoBehaviour:
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
-  myName: Mashiro
+  myName: 1
 --- !u!114 &6593712558778912880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64434,9 +64445,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120f326fc412ebe40bfee9dd31402fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackPoint: {fileID: 0}
-  rb: {fileID: 0}
-  animator: {fileID: 0}
+  attackPoint: {fileID: 652455865}
+  rb: {fileID: 6593712558778912875}
+  animator: {fileID: 444289401179148457}
+  characterManager: {fileID: 1457352753}
+  myName: 1
 --- !u!4 &6601159329079231624
 Transform:
   m_ObjectHideFlags: 0

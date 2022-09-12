@@ -34,10 +34,11 @@ MonoBehaviour:
   - voiceName: 1
     clip: {fileID: 8300000, guid: d5bf680854b2ac3479b232be7a12c481, type: 3}
   - voiceName: 2
-    clip: {fileID: 8300000, guid: f10745b15a15c724087e46ec9785dd79, type: 3}
-  - voiceName: 3
-    clip: {fileID: 8300000, guid: a7f2a9f174d0733489ac44549db32534, type: 3}
-  - voiceName: 4
     clip: {fileID: 8300000, guid: e0fc72468155def4d804dc234382582d, type: 3}
-  - voiceName: 5
+  - voiceName: 3
     clip: {fileID: 8300000, guid: b6df2ce048530494dbc3339174ad1283, type: 3}
+  characterVoiceDataList:
+  - charaName: 0
+    clip: {fileID: 8300000, guid: a7f2a9f174d0733489ac44549db32534, type: 3}
+  - charaName: 1
+    clip: {fileID: 8300000, guid: f10745b15a15c724087e46ec9785dd79, type: 3}

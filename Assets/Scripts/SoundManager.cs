@@ -65,6 +65,17 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 指定した名前のキャラクターの音声のデータを取得する
+    /// </summary>
+    /// <param name="charaName">キャラクターの名前</param>
+    /// <returns>指定した名前のキャラクターの音声のデータ</returns>
+    public SoundDataSO.CharacterVoiceData GetCharacterVoiceData(CharacterManager.CharaName charaName)
+    {
+        //指定した名前のキャラクターの音声のデータを返す
+        return soundDataSO.characterVoiceDataList.Find(x=>x.charaName == charaName);
+    }
+
+    /// <summary>
     /// AudioSourceを使って、音を再生する
     /// </summary>
     /// <param name="clip">クリップ</param>

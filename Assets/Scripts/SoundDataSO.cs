@@ -61,8 +61,6 @@ public class SoundDataSO : ScriptableObject
     {
         MashiroName,//真白の名前
         TamakoName,//魂子の名前
-        MashiroVoice,//真白が攻撃するときの声
-        TamakoVoice,//魂子が攻撃する際の声
         CountDown,//試合開始前のカウントダウン
         GameSet,//「GaneSet」
     }
@@ -79,4 +77,17 @@ public class SoundDataSO : ScriptableObject
 
     //音声のデータのリスト
     public List<VoiceData> voiceDataList = new List<VoiceData>();
+
+    /// <summary>
+    /// キャラクターの音声のデータを管理する
+    /// </summary>
+    [Serializable]
+    public class CharacterVoiceData
+    {
+        public CharacterManager.CharaName charaName;//キャラクターの名前
+        public AudioClip clip;//クリップ
+    }
+
+    //キャラクターの音声のデータのリスト
+    public List<CharacterVoiceData> characterVoiceDataList = new();
 }

@@ -41,9 +41,55 @@ public class CharacterManager : MonoBehaviour
     /// <param name="charaName">キャラクターの名前</param>
     /// <param name="keyType">キーの種類</param>
     /// <returns>指定した条件に合うキー</returns>
-    public KeyCode GetKey(CharaName charaName,KeyType keyType)
+    public KeyCode GetCharacterControllerKey(CharaName charaName,KeyType keyType)
     {
         //指定した条件に合うキーを返す
         return charaDataList.Find(x => x.charaName == charaName&& x.keyType == keyType).key;
+    }
+
+    /// <summary>
+    /// NPCControllerのデータ管理用
+    /// </summary>
+    [Serializable]
+    public class NPCControllerData
+    {
+        public CharaName charaName;//キャラクターの名前
+        public NPCController npcController;//NPCController
+    }
+
+    public List<NPCControllerData> npcControllerDataList = new();//NPCControllerのデータのリスト
+
+    /// <summary>
+    /// 指定したキャラクターのNPCControllerを取得する
+    /// </summary>
+    /// <param name="charaName">キャラクターの名前</param>
+    /// <returns>指定したキャラクターのNPCController</returns>
+    public NPCController GetNpcController(CharaName charaName)
+    {
+        //指定したキャラクターのNPCControllerを返す
+        return npcControllerDataList.Find(x=>x.charaName==charaName).npcController;
+    }
+
+    /// <summary>
+    /// CharacterControllerのデータ管理用
+    /// </summary>
+    [Serializable]
+    public class CharacterControllerData
+    {
+        public CharaName charaName;//キャラクターの名前
+        public CharacterController characterController;//CharacterController
+    }
+
+    public List<CharacterControllerData> characterControllerDataList = new();//CharacterControllerのデータのリスト
+
+    /// <summary>
+    /// 指定したキャラクターのCharacterControllerを取得する
+    /// </summary>
+    /// <param name="charaName">キャラクターの名前</param>
+    /// <returns>指定したキャラクターのCharacterController></returns>
+    public CharacterController GetCharacterController(CharaName charaName)
+    {
+        //指定したキャラクターのCharacterControllerを返す
+        return characterControllerDataList.Find(x=>x.charaName == charaName).characterController;
     }
 }

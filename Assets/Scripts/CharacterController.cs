@@ -13,6 +13,12 @@ public class CharacterController : MonoBehaviour
     [SerializeField]
     private Animator animator;//Animator
 
+    [SerializeField]
+    private CharacterManager characterManager;//CharacterManager
+
+    [SerializeField]
+    private CharacterManager.CharaName myName;//自分の名前
+
     private float moveDirection;//移動方向
 
     private float cliffTimer;//崖にしがみついている総時間
@@ -26,9 +32,9 @@ public class CharacterController : MonoBehaviour
     private bool soundFlag;//崖の効果音用
 
     /// <summary>
-    /// ゲーム開始直後に呼び出される
+    /// CharacterControllerの初期設定を行う
     /// </summary>
-    private void Start()
+    public void SetUpCharacterController()
     {
         //攻撃位置を無効化
         attackPoint.SetActive(false);
@@ -99,7 +105,7 @@ public class CharacterController : MonoBehaviour
     private IEnumerator ControlMovement()
     {
         //右矢印が押されている間
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(characterManager.GetCharacterControllerKey(myName,CharacterManager.KeyType.Right)))
         {
             //右を向く
             transform.eulerAngles = new Vector3(0f, -90f, 0f);
@@ -108,7 +114,7 @@ public class CharacterController : MonoBehaviour
             moveDirection = 1f;
         }
         //左矢印が押されている間
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(characterManager.GetCharacterControllerKey(myName, CharacterManager.KeyType.Left)))
         {
             //左を向く
             transform.eulerAngles = new Vector3(0f, 90f, 0f);
@@ -126,14 +132,14 @@ public class CharacterController : MonoBehaviour
         rb.AddForce(transform.forward * Mathf.Abs(moveDirection) * GameData.instance.moveSpeed);
 
         //下矢印が押され、攻撃中ではないなら
-        if (Input.GetKey(KeyCode.DownArrow)  && !isAttack)
+        if (Input.GetKey(characterManager.GetCharacterControllerKey(myName, CharacterManager.KeyType.Down))  && !isAttack)
         {
             //攻撃する
             StartCoroutine(Attack());
         }
 
         //上矢印が押され、ジャンプ中ではないなら
-        if (Input.GetKey(KeyCode.UpArrow) && !isjumping)
+        if (Input.GetKey(characterManager.GetCharacterControllerKey(myName, CharacterManager.KeyType.Up)) && !isjumping)
         {
             //ジャンプ中に切り替える
             isjumping = true;
@@ -245,7 +251,7 @@ public class CharacterController : MonoBehaviour
         isAttack = true;
 
         //音声を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoVoice).clip);
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetCharacterVoiceData(myName).clip);
 
         //攻撃アニメーションを行う
         animator.SetBool("Attack", true);
@@ -331,7 +337,7 @@ public class CharacterController : MonoBehaviour
         animator.SetBool("Cliff", true);
 
         //上矢印が押されたら
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(characterManager.GetCharacterControllerKey(myName, CharacterManager.KeyType.Up)))
         {
             //効果音を再生
             SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
