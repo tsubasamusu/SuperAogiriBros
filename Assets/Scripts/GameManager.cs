@@ -2,7 +2,7 @@ using System.Collections;//IEnumeratorを使用
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;//LoadSceneメソッドを使用
-using DG.Tweening;//DOTweenを使用
+//using DG.Tweening;//DOTweenを使用
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CharacterManager characterManager;//CharacterManager
 
-    private AudioSource audioSource;//使用しているAudioSource
+    //private AudioSource audioSource;//使用しているAudioSource
 
     private bool isSolo;//ソロかどうか
 
@@ -31,7 +31,8 @@ public class GameManager : MonoBehaviour
         uIManager.HideCursor();
 
         //BGMを再生
-        audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
+        //audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uIManager.PlayGameStart();
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
         if (!isSolo)
         {
             //BGMを切り替える
-            ChangeBgm();
+            //ChangeBgm();
 
             //試合が始まるまで待つ
             yield return StartGame();
@@ -55,10 +56,14 @@ public class GameManager : MonoBehaviour
             for(int i=0;i<2;i++)
             {
                 //CharacterControllerを活性化する
-                characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled = true;
+                //characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled = true;
+
+                // 不要な方を削除する
+                Destroy(characterManager.charaList[i].GetComponent<NPCController>());
 
                 //CharacterControllerの初期設定を行う
-                characterManager.GetCharacterController((CharacterManager.CharaName)i).SetUpCharacterController(characterManager);
+                //characterManager.GetCharacterController((CharacterManager.CharaName)i).SetUpCharacterController(characterManager);
+                characterManager.charaList[i].GetComponent<Tsubasa.CharacterController>().SetUpCharacterController(characterManager.GetCharaData((CharaName)i), OwnerType.Player);
             }
 
             //以降の処理を行わない
@@ -72,35 +77,53 @@ public class GameManager : MonoBehaviour
         yield return CheckCharaSelect();
 
         //BGMを切り替える
-        ChangeBgm();
+        //ChangeBgm();
 
         //試合が始まるまで待つ
         yield return StartGame();
 
-        //ソロプレーヤーが魂子を使用するなら
-        if(useTamako)
-        {
-            //魂子のCharacterControllerを活性化する
-            characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).enabled = true;
+        // どちらのキャラを選択しているか
+        (CharaName myChara, CharaName npcChara) useChara = useTamako ? (CharaName.Tamako, CharaName.Mashiro) : (CharaName.Mashiro, CharaName.Tamako);
 
-            //CharacterControllerの初期設定を行う
-            characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).SetUpCharacterController(characterManager);
+        // myChara の NPCController を削除
+        Destroy(characterManager.GetCharaControllerBase(useChara.myChara).GetComponent<NPCController>());
 
-            //真白のNPCControllerを活性化する
-            characterManager.GetNpcController(CharacterManager.CharaName.Mashiro).enabled = true;
-        }
-        //ソロプレーヤーが真白を使用するなら
-        else
-        {
-            //真白のCharacterControllerを活性化する
-            characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).enabled = true;
+        // myChara の CharacterController を設定
+        characterManager.GetCharaControllerBase(useChara.myChara).GetComponent<Tsubasa.CharacterController>().SetUpCharacterController(characterManager.GetCharaData(useChara.myChara), OwnerType.Player);
 
-            //CharacterControllerの初期設定を行う
-            characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).SetUpCharacterController(characterManager);
+        // npcChara の CharacterController を削除
+        Destroy(characterManager.GetCharaControllerBase(useChara.npcChara).GetComponent<Tsubasa.CharacterController>());
 
-            //魂子のNPCControllerを活性化する
-            characterManager.GetNpcController(CharacterManager.CharaName.Tamako).enabled = true;
-        }
+        // npcChara の CharacterController を設定
+        characterManager.GetCharaControllerBase(useChara.npcChara).GetComponent<NPCController>().SetUpCharacterController(characterManager.GetCharaData(useChara.npcChara), OwnerType.NPC);
+
+
+        ////ソロプレーヤーが魂子を使用するなら
+        //if (useTamako)
+        //{
+        ////魂子のCharacterControllerを活性化する
+        //characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).enabled = true;
+
+        ////CharacterControllerの初期設定を行う
+        //characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).SetUpCharacterController(characterManager);
+
+        ////真白のNPCControllerを活性化する
+        //characterManager.GetNpcController(CharacterManager.CharaName.Mashiro).enabled = true;
+
+
+        //}
+        ////ソロプレーヤーが真白を使用するなら
+        //else
+        //{
+        //    //真白のCharacterControllerを活性化する
+        //    characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).enabled = true;
+
+        //    //CharacterControllerの初期設定を行う
+        //    characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).SetUpCharacterController(characterManager);
+
+        //    //魂子のNPCControllerを活性化する
+        //    characterManager.GetNpcController(CharacterManager.CharaName.Tamako).enabled = true;
+        //}
     }
 
     /// <summary>
@@ -111,11 +134,13 @@ public class GameManager : MonoBehaviour
         //2回繰り返す
         for(int i = 0; i < 2; i++)
         {
-            //CharacterControllerを非活性化する
-            characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled=false;
+            ////CharacterControllerを非活性化する
+            //characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled=false;
 
-            //NPCControllerを非活性化する
-            characterManager.GetNpcController((CharacterManager.CharaName)i).enabled=false;
+            ////NPCControllerを非活性化する
+            //characterManager.GetNpcController((CharacterManager.CharaName)i).enabled=false;
+
+            characterManager.charaList[i].enabled = false;
         }
     }
 
@@ -237,8 +262,8 @@ public class GameManager : MonoBehaviour
         //音声を再生
         SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.GameSet).clip);
 
-        //BGMをフェードアウトさせる
-        audioSource.DOFade(0f, 1f);
+        ////BGMをフェードアウトさせる
+        //audioSource.DOFade(0f, 1f);
 
         //ゲーム終了演出が終わるまで待つ
         yield return uIManager.EndGame();
@@ -254,23 +279,5 @@ public class GameManager : MonoBehaviour
     {
         //選択音を再生する
         SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
-    }
-
-    /// <summary>
-    /// BGMをMainからGameに切り替える
-    /// </summary>
-    private void ChangeBgm()
-    {
-        //BGMをフェードアウトさせる
-        audioSource.DOFade(0f, 1f).
-
-            //BGMを切り替える
-            OnComplete(() =>
-            {
-                { audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
-
-                //BGMをフェードインさせる
-                { audioSource.DOFade(1f, 1f); }
-            });
     }
 }

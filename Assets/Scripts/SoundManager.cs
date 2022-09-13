@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class SoundManager : MonoBehaviour
 {
@@ -69,7 +70,7 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="charaName">キャラクターの名前</param>
     /// <returns>指定した名前のキャラクターの音声のデータ</returns>
-    public SoundDataSO.CharacterVoiceData GetCharacterVoiceData(CharacterManager.CharaName charaName)
+    public SoundDataSO.CharacterVoiceData GetCharacterVoiceData(CharaName charaName)
     {
         //指定した名前のキャラクターの音声のデータを返す
         return soundDataSO.characterVoiceDataList.Find(x=>x.charaName == charaName);
@@ -104,5 +105,21 @@ public class SoundManager : MonoBehaviour
 
         //使用したAudioSourceを返す
         return subAudioSource;
+    }
+
+    /// <summary>
+    /// BGMをMainからGameに切り替える
+    /// </summary>
+    private void ChangeBgm() {
+        //BGMをフェードアウトさせる
+        mainAudioSource.DOFade(0f, 1f).
+
+            //BGMを切り替える
+            OnComplete(() => {
+                { mainAudioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
+
+                //BGMをフェードインさせる
+                { mainAudioSource.DOFade(1f, 1f); }
+            });
     }
 }

@@ -84,7 +84,7 @@ public class SoundDataSO : ScriptableObject
     [Serializable]
     public class CharacterVoiceData
     {
-        public CharacterManager.CharaName charaName;//キャラクターの名前
+        public CharaName charaName;//キャラクターの名前
         public AudioClip clip;//クリップ
     }
 
