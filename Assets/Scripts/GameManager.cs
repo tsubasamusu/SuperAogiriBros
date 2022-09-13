@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CharacterManager characterManager;//CharacterManager
 
-    private AudioSource audioSource;//使用しているAudioSource
-
     private bool isSolo;//ソロかどうか
 
     private bool useTamako;//ソロプレーヤーが魂子を使用するかどうか
@@ -31,7 +29,7 @@ public class GameManager : MonoBehaviour
         uIManager.HideCursor();
 
         //BGMを再生
-        audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
+        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uIManager.PlayGameStart();
@@ -46,7 +44,7 @@ public class GameManager : MonoBehaviour
         if (!isSolo)
         {
             //BGMを切り替える
-            ChangeBgm();
+            SoundManager.instance.ChangeBgmMainToGame();
 
             //試合が始まるまで待つ
             yield return StartGame();
@@ -72,7 +70,7 @@ public class GameManager : MonoBehaviour
         yield return CheckCharaSelect();
 
         //BGMを切り替える
-        ChangeBgm();
+        SoundManager.instance.ChangeBgmMainToGame();
 
         //試合が始まるまで待つ
         yield return StartGame();
@@ -132,7 +130,7 @@ public class GameManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 //選択音を再生する
-                PlaySelectSound();
+                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたモードを記憶する
                 isSolo = true;
@@ -144,7 +142,7 @@ public class GameManager : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
                 //選択音を再生する
-                PlaySelectSound();
+                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたモードを記憶する
                 isSolo = false;
@@ -174,7 +172,7 @@ public class GameManager : MonoBehaviour
                 SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroName).clip);
 
                 //選択音を再生する
-                PlaySelectSound();
+                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたキャラクターを記憶する
                 useTamako = false;
@@ -189,7 +187,7 @@ public class GameManager : MonoBehaviour
                 SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoName).clip);
 
                 //選択音を再生する
-                PlaySelectSound();
+                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたキャラクターを記憶する
                 useTamako = true;
@@ -238,39 +236,12 @@ public class GameManager : MonoBehaviour
         SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.GameSet).clip);
 
         //BGMをフェードアウトさせる
-        audioSource.DOFade(0f, 1f);
+        SoundManager.instance.StopSound(0.5f);
 
         //ゲーム終了演出が終わるまで待つ
         yield return uIManager.EndGame();
 
         //Mainシーンを読み込む
         SceneManager.LoadScene("Main");
-    }
-
-    /// <summary>
-    /// 選択音を再生する
-    /// </summary>
-    private void PlaySelectSound()
-    {
-        //選択音を再生する
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
-    }
-
-    /// <summary>
-    /// BGMをMainからGameに切り替える
-    /// </summary>
-    private void ChangeBgm()
-    {
-        //BGMをフェードアウトさせる
-        audioSource.DOFade(0f, 1f).
-
-            //BGMを切り替える
-            OnComplete(() =>
-            {
-                { audioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
-
-                //BGMをフェードインさせる
-                { audioSource.DOFade(1f, 1f); }
-            });
     }
 }
