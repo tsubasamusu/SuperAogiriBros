@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;//LoadSceneメソッドを使用
 using DG.Tweening;//DOTweenを使用
+using Tsubasa;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
                 characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled = true;
 
                 //CharacterControllerの初期設定を行う
-                characterManager.GetCharacterController((CharacterManager.CharaName)i).SetUpCharacterController();
+                //characterManager.GetCharacterController((CharacterManager.CharaName)i).SetUpCharacterController(characterManager);
             }
 
             //以降の処理を行わない
@@ -84,7 +85,7 @@ public class GameManager : MonoBehaviour
             characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).enabled = true;
 
             //CharacterControllerの初期設定を行う
-            characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).SetUpCharacterController();
+            //characterManager.GetCharacterController(CharacterManager.CharaName.Tamako).SetUpCharacterController(characterManager);
 
             //真白のNPCControllerを活性化する
             characterManager.GetNpcController(CharacterManager.CharaName.Mashiro).enabled = true;
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour
             characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).enabled = true;
 
             //CharacterControllerの初期設定を行う
-            characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).SetUpCharacterController();
+            //characterManager.GetCharacterController(CharacterManager.CharaName.Mashiro).SetUpCharacterController(characterManager);
 
             //魂子のNPCControllerを活性化する
             characterManager.GetNpcController(CharacterManager.CharaName.Tamako).enabled = true;

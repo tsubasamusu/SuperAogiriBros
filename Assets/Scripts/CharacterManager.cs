@@ -86,7 +86,7 @@ public class CharacterManager : MonoBehaviour
     /// 指定したキャラクターのCharacterControllerを取得する
     /// </summary>
     /// <param name="charaName">キャラクターの名前</param>
-    /// <returns>指定したキャラクターのCharacterController></returns>
+    /// <returns>指定したキャラクターのCharacterController</returns>
     public CharacterController GetCharacterController(CharaName charaName)
     {
         //指定したキャラクターのCharacterControllerを返す
