@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;//LoadSceneメソッドを使用
 using DG.Tweening;//DOTweenを使用
+using Tsubasa;//CameraControllerを使用
 
 public class GameManager : MonoBehaviour
 {

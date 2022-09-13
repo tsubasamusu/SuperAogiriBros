@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;//DOTweenを使用
+using Tsubasa;//CameraControllerを使用
 
 public class CharacterHealth : MonoBehaviour
 {
