@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
+using DG.Tweening;//DOTweenを使用
 
 public class SoundManager : MonoBehaviour
 {
@@ -70,53 +70,79 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     /// <param name="charaName">キャラクターの名前</param>
     /// <returns>指定した名前のキャラクターの音声のデータ</returns>
-    public SoundDataSO.CharacterVoiceData GetCharacterVoiceData(CharaName charaName)
+    public SoundDataSO.CharacterVoiceData GetCharacterVoiceData(CharacterManager.CharaName charaName)
     {
         //指定した名前のキャラクターの音声のデータを返す
         return soundDataSO.characterVoiceDataList.Find(x=>x.charaName == charaName);
     }
 
     /// <summary>
-    /// AudioSourceを使って、音を再生する
+    /// 音を再生する
     /// </summary>
     /// <param name="clip">クリップ</param>
     /// <param name="loop">繰り返すかどうか</param>
-    /// <returns>使用したAudioSource</returns>
-    public AudioSource PlaySoundByAudioSource(AudioClip clip,bool loop=false)
+    public void PlaySound(AudioClip clip,bool loop=false)
     {
         //繰り返すなら
-        if(loop==true)
+        if (loop == true)
         {
             //クリップを設定
-            mainAudioSource.clip= clip;
+            mainAudioSource.clip = clip;
 
             //繰り返すように設定
-            mainAudioSource.loop= loop;
+            mainAudioSource.loop = loop;
 
             //音を再生
             mainAudioSource.Play();
-
-            //メインのAudioSourceを返す
-            return mainAudioSource;
         }
+        //繰り返さないなら
+        else
+        {
+            //音を再生する
+            subAudioSource.PlayOneShot(clip);
+        }
+    }
 
-        //音を再生する
-        subAudioSource.PlayOneShot(clip);
-
-        //使用したAudioSourceを返す
-        return subAudioSource;
+    /// <summary>
+    /// 音を止める
+    /// </summary>
+    /// <param name="time">フェードアウト時間</param>
+    /// <param name="isMain">メインのAudioSourceで再生されている音かどうか</param>
+    public void StopSound(float time,bool isMain=true)
+    {
+        //メインのAudioSourceで再生されている音を止めるなら
+        if (isMain)
+        {
+            //メインのAudioSourceで再生されている音をフェードアウトさせる
+            mainAudioSource.DOFade(0f, time);
+        }
+        //サブのAudioSourceで再生されている音を止めるなら
+        else
+        {
+            //サブのAudioSourceで再生されている音をフェードアウトさせる
+            subAudioSource.DOFade(0f, time);
+        }
     }
 
     /// <summary>
     /// BGMをMainからGameに切り替える
     /// </summary>
-    private void ChangeBgm() {
+    public void ChangeBgmMainToGame()
+    {
+        //メインのAudioSourceに設定されている音がMainではないなら（MainのBGMが流れていないなら）
+        if (mainAudioSource.clip != soundDataSO.bgmDataList.Find(x => x.bgmName == SoundDataSO.BgmName.Main).clip)
+        {
+            //以降の処理を行わない
+            return;
+        }
+
         //BGMをフェードアウトさせる
         mainAudioSource.DOFade(0f, 1f).
 
             //BGMを切り替える
-            OnComplete(() => {
-                { mainAudioSource = SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
+            OnComplete(() =>
+            {
+                { PlaySound(GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
 
                 //BGMをフェードインさせる
                 { mainAudioSource.DOFade(1f, 1f); }

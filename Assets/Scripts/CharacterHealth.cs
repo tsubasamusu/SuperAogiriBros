@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;//DOTweenを使用
+using Tsubasa;//CameraControllerを使用
 
 public class CharacterHealth : MonoBehaviour
 {
@@ -9,16 +10,14 @@ public class CharacterHealth : MonoBehaviour
     private Rigidbody rb;//Rigidbody
 
     [SerializeField]
-    private CameraController cameraController;//CameraController
-
-    [SerializeField]
-    private GameManager gameManager;//GameManager
-
-    [SerializeField]
     private Transform parentTran;//エフェクトの親
 
     [SerializeField]
     private GameObject enemy;//敵
+
+    private GameManager gameManager;//GameManager
+
+    private CameraController cameraController;//CameraController
 
     private float damage=0f;//蓄積ダメージ（初期値は0）
 
@@ -63,6 +62,19 @@ public class CharacterHealth : MonoBehaviour
     }
 
     /// <summary>
+    /// CharacterHealthの初期設定を行う
+    /// </summary>
+    /// <param name="gameManager">GameManager</param>
+    public void SetUpCharacterHealth(GameManager gameManager,CameraController cameraController)
+    {
+        //GameManagerを取得
+        this.gameManager = gameManager;
+
+        //CameraControllerを設定
+        this.cameraController = cameraController;
+    }
+
+    /// <summary>
     /// 攻撃された際の処理を行う
     /// </summary>
     /// <param name="enemyTran">攻撃相手の位置情報</param>
@@ -72,7 +84,7 @@ public class CharacterHealth : MonoBehaviour
         damage += 10f;
 
         //効果音を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Explosion).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Explosion).clip);
 
         //攻撃相手が自身より左にいるなら
         if (enemyTran.position.x > transform.position.x)
@@ -130,7 +142,7 @@ public class CharacterHealth : MonoBehaviour
     private void KillMe()
     {
         //効果音を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Dead).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Dead).clip);
 
         //エフェクトを生成
         GameObject effect = Instantiate(GameData.instance.deadEffect,transform.position,Quaternion.identity,parentTran);

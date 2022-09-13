@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667555, g: 0.48427182, b: 0.5645241, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1331,10 +1331,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a5068440599814bb63318eea51831e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charaList:
-  - {fileID: 5635693738244821027}
-  - {fileID: 6593712558778912880}
-  charaDataSO: {fileID: 11400000, guid: c505db02ed51eb0459599f925c587e45, type: 2}
+  charaDataList:
+  - charaName: 0
+    keyType: 0
+    key: 273
+  - charaName: 0
+    keyType: 1
+    key: 274
+  - charaName: 0
+    keyType: 2
+    key: 275
+  - charaName: 0
+    keyType: 3
+    key: 276
+  - charaName: 1
+    keyType: 0
+    key: 119
+  - charaName: 1
+    keyType: 1
+    key: 115
+  - charaName: 1
+    keyType: 2
+    key: 100
+  - charaName: 1
+    keyType: 3
+    key: 97
+  characterClassDataList:
+  - charaName: 0
+    npcController: {fileID: 5635693738244821032}
+    characterController: {fileID: 5635693738244821027}
+    characterHealth: {fileID: 5635693738244821031}
+  - charaName: 1
+    npcController: {fileID: 6593712558778912879}
+    characterController: {fileID: 6593712558778912880}
+    characterHealth: {fileID: 6593712558778912878}
 --- !u!1 &1555192728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1627,6 +1657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -1695,6 +1726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIManager: {fileID: 1609985836}
   characterManager: {fileID: 1457352753}
+  cameraController: {fileID: 963194230}
 --- !u!1 &2127174146
 GameObject:
   m_ObjectHideFlags: 0
@@ -55393,6 +55425,7 @@ MonoBehaviour:
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
+  myName: 0
 --- !u!54 &5635693738244821028
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -55448,8 +55481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5635693738244821028}
-  cameraController: {fileID: 963194230}
-  gameManager: {fileID: 1982207885}
   parentTran: {fileID: 1801310555}
   enemy: {fileID: 6593712558778912873}
 --- !u!114 &5635693738244821032
@@ -55459,15 +55490,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5007388382381836952}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 286028c7842a90c4a8f9d577aa444287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyTran: {fileID: 5821538103671442131}
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
-  enemyTran: {fileID: 5821538103671442131}
+  myName: 0
 --- !u!1 &5639167391056172746
 GameObject:
   m_ObjectHideFlags: 0
@@ -64377,8 +64409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 6593712558778912875}
-  cameraController: {fileID: 963194230}
-  gameManager: {fileID: 1982207885}
   parentTran: {fileID: 1801310555}
   enemy: {fileID: 5007388382381836952}
 --- !u!114 &6593712558778912879
@@ -64393,10 +64423,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 286028c7842a90c4a8f9d577aa444287, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyTran: {fileID: 5635693738244821026}
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
-  enemyTran: {fileID: 5635693738244821026}
+  myName: 1
 --- !u!114 &6593712558778912880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -64412,6 +64443,7 @@ MonoBehaviour:
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
+  myName: 1
 --- !u!4 &6601159329079231624
 Transform:
   m_ObjectHideFlags: 0
