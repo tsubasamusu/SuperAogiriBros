@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;//リストを使用
 using UnityEngine;
 using System;//Serializable属性を使用
@@ -77,7 +76,7 @@ public class CharacterManager : MonoBehaviour
     public class CharacterControllerData
     {
         public CharaName charaName;//キャラクターの名前
-        public CharacterController characterController;//CharacterController
+        public Tsubasa.CharacterController characterController;//CharacterController
     }
 
     public List<CharacterControllerData> characterControllerDataList = new();//CharacterControllerのデータのリスト
@@ -87,7 +86,7 @@ public class CharacterManager : MonoBehaviour
     /// </summary>
     /// <param name="charaName">キャラクターの名前</param>
     /// <returns>指定したキャラクターのCharacterController</returns>
-    public CharacterController GetCharacterController(CharaName charaName)
+    public Tsubasa.CharacterController GetCharacterController(CharaName charaName)
     {
         //指定したキャラクターのCharacterControllerを返す
         return characterControllerDataList.Find(x=>x.charaName == charaName).characterController;

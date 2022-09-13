@@ -55425,7 +55425,6 @@ MonoBehaviour:
   attackPoint: {fileID: 996949062}
   rb: {fileID: 5635693738244821028}
   animator: {fileID: 1789667706493209176}
-  characterManager: {fileID: 1457352753}
   myName: 0
 --- !u!54 &5635693738244821028
 Rigidbody:
@@ -64448,7 +64447,6 @@ MonoBehaviour:
   attackPoint: {fileID: 652455865}
   rb: {fileID: 6593712558778912875}
   animator: {fileID: 444289401179148457}
-  characterManager: {fileID: 1457352753}
   myName: 1
 --- !u!4 &6601159329079231624
 Transform:
