@@ -1356,16 +1356,15 @@ MonoBehaviour:
   - charaName: 1
     keyType: 3
     key: 97
-  npcControllerDataList:
+  characterClassDataList:
   - charaName: 0
     npcController: {fileID: 5635693738244821032}
+    characterController: {fileID: 5635693738244821027}
+    characterHealth: {fileID: 5635693738244821031}
   - charaName: 1
     npcController: {fileID: 6593712558778912879}
-  characterControllerDataList:
-  - charaName: 0
-    characterController: {fileID: 5635693738244821027}
-  - charaName: 1
     characterController: {fileID: 6593712558778912880}
+    characterHealth: {fileID: 6593712558778912878}
 --- !u!1 &1555192728
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,6 +1726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uIManager: {fileID: 1609985836}
   characterManager: {fileID: 1457352753}
+  cameraController: {fileID: 963194230}
 --- !u!1 &2127174146
 GameObject:
   m_ObjectHideFlags: 0
@@ -55481,8 +55481,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 5635693738244821028}
-  cameraController: {fileID: 963194230}
-  gameManager: {fileID: 1982207885}
   parentTran: {fileID: 1801310555}
   enemy: {fileID: 6593712558778912873}
 --- !u!114 &5635693738244821032
@@ -64411,8 +64409,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 6593712558778912875}
-  cameraController: {fileID: 963194230}
-  gameManager: {fileID: 1982207885}
   parentTran: {fileID: 1801310555}
   enemy: {fileID: 5007388382381836952}
 --- !u!114 &6593712558778912879

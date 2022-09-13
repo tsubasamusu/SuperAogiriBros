@@ -47,16 +47,18 @@ public class CharacterManager : MonoBehaviour
     }
 
     /// <summary>
-    /// NPCControllerのデータ管理用
+    /// キャラクターにアタッチされているクラスのデータの管理用
     /// </summary>
     [Serializable]
-    public class NPCControllerData
+    public class CharacterClassData
     {
         public CharaName charaName;//キャラクターの名前
         public NPCController npcController;//NPCController
+        public Tsubasa.CharacterController characterController;//CharacterController
+        public CharacterHealth characterHealth;//CharacterHealth
     }
 
-    public List<NPCControllerData> npcControllerDataList = new();//NPCControllerのデータのリスト
+    public List<CharacterClassData> characterClassDataList = new();//Controllerのデータのリスト
 
     /// <summary>
     /// 指定したキャラクターのNPCControllerを取得する
@@ -66,20 +68,8 @@ public class CharacterManager : MonoBehaviour
     public NPCController GetNpcController(CharaName charaName)
     {
         //指定したキャラクターのNPCControllerを返す
-        return npcControllerDataList.Find(x=>x.charaName==charaName).npcController;
+        return characterClassDataList.Find(x=>x.charaName==charaName).npcController;
     }
-
-    /// <summary>
-    /// CharacterControllerのデータ管理用
-    /// </summary>
-    [Serializable]
-    public class CharacterControllerData
-    {
-        public CharaName charaName;//キャラクターの名前
-        public Tsubasa.CharacterController characterController;//CharacterController
-    }
-
-    public List<CharacterControllerData> characterControllerDataList = new();//CharacterControllerのデータのリスト
 
     /// <summary>
     /// 指定したキャラクターのCharacterControllerを取得する
@@ -89,6 +79,17 @@ public class CharacterManager : MonoBehaviour
     public Tsubasa.CharacterController GetCharacterController(CharaName charaName)
     {
         //指定したキャラクターのCharacterControllerを返す
-        return characterControllerDataList.Find(x=>x.charaName == charaName).characterController;
+        return characterClassDataList.Find(x=>x.charaName == charaName).characterController;
+    }
+
+    /// <summary>
+    /// 指定したキャラクターのCharacterHealthを取得する
+    /// </summary>
+    /// <param name="charaName">キャラクターの名前</param>
+    /// <returns>指定したキャラクターのCharacterHealth</returns>
+    public CharacterHealth GetCharacterHealth(CharaName charaName)
+    {
+        //指定したキャラクターのCharacterHealthを返す
+        return characterClassDataList.Find(x=>x.charaName==charaName).characterHealth;
     }
 }

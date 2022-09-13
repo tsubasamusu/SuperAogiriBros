@@ -12,6 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private CharacterManager characterManager;//CharacterManager
 
+    [SerializeField]
+    private CameraController cameraController;//CameraController
+
     private bool isSolo;//ソロかどうか
 
     private bool useTamako;//ソロプレーヤーが魂子を使用するかどうか
@@ -25,11 +28,18 @@ public class GameManager : MonoBehaviour
         //全てのコントローラーを非活性化する（試合前にキャラクターが動かないようにするため）
         SetControllersFalse();
 
+        //キャラクターの数だけ繰り返す
+        for(int i = 0; i < characterManager.characterClassDataList.Count; i++)
+        {
+            //CharacterHealthの初期設定を行う
+            characterManager.GetCharacterHealth((CharacterManager.CharaName)i).SetUpCharacterHealth(this,cameraController);
+        }
+
         //マウスカーソルを非表示にする
         uIManager.HideCursor();
 
         //BGMを再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetBgmData(SoundDataSO.BgmName.Main).clip, true);
 
         //ゲームスタート演出が終わるまで待つ
         yield return uIManager.PlayGameStart();
@@ -49,8 +59,8 @@ public class GameManager : MonoBehaviour
             //試合が始まるまで待つ
             yield return StartGame();
 
-            //2回繰り返す
-            for(int i=0;i<2;i++)
+            //キャラクターの数だけ繰り返す
+            for (int i=0;i< characterManager.characterClassDataList.Count; i++)
             {
                 //CharacterControllerを活性化する
                 characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled = true;
@@ -106,8 +116,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetControllersFalse()
     {
-        //2回繰り返す
-        for(int i = 0; i < 2; i++)
+        //キャラクターの数だけ繰り返す
+        for (int i = 0; i < characterManager.characterClassDataList.Count; i++)
         {
             //CharacterControllerを非活性化する
             characterManager.GetCharacterController((CharacterManager.CharaName)i).enabled=false;
@@ -130,7 +140,7 @@ public class GameManager : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.Alpha1))
             {
                 //選択音を再生する
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたモードを記憶する
                 isSolo = true;
@@ -142,7 +152,7 @@ public class GameManager : MonoBehaviour
             else if(Input.GetKeyDown(KeyCode.Alpha2))
             {
                 //選択音を再生する
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたモードを記憶する
                 isSolo = false;
@@ -169,10 +179,10 @@ public class GameManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 //音声を再生
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroName).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.MashiroName).clip);
 
                 //選択音を再生する
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたキャラクターを記憶する
                 useTamako = false;
@@ -184,10 +194,10 @@ public class GameManager : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 //音声を再生
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoName).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.TamakoName).clip);
 
                 //選択音を再生する
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Select).clip);
 
                 //選択されたキャラクターを記憶する
                 useTamako = true;
@@ -211,7 +221,7 @@ public class GameManager : MonoBehaviour
         yield return uIManager.GoToGame();
 
         //音声を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.CountDown).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.CountDown).clip);
 
         //試合前のカウントダウンが終わるまで待つ
         yield return uIManager.CountDown();
@@ -233,7 +243,7 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndGame()
     {
         //音声を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.GameSet).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetVoiceData(SoundDataSO.VoiceName.GameSet).clip);
 
         //BGMをフェードアウトさせる
         SoundManager.instance.StopSound(0.5f);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    public List<Transform> targetTransList=new List<Transform>();//映す対象のオブジェクトの位置情報のリスト
+    public List<Transform> targetTransList=new();//映す対象のオブジェクトの位置情報のリスト
 
     [SerializeField]
     private float smooth;//視点移動の滑らかさ

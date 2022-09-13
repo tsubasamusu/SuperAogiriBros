@@ -77,11 +77,11 @@ public class SoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// AudioSourceを使って、音を再生する
+    /// 音を再生する
     /// </summary>
     /// <param name="clip">クリップ</param>
     /// <param name="loop">繰り返すかどうか</param>
-    public void PlaySoundByAudioSource(AudioClip clip,bool loop=false)
+    public void PlaySound(AudioClip clip,bool loop=false)
     {
         //繰り返すなら
         if (loop == true)
@@ -142,7 +142,7 @@ public class SoundManager : MonoBehaviour
             //BGMを切り替える
             OnComplete(() =>
             {
-                { PlaySoundByAudioSource(GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
+                { PlaySound(GetBgmData(SoundDataSO.BgmName.Game).clip, true); }
 
                 //BGMをフェードインさせる
                 { mainAudioSource.DOFade(1f, 1f); }

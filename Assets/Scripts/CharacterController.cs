@@ -147,7 +147,7 @@ namespace Tsubasa
                 isjumping = true;
 
                 //効果音を再生
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
 
                 //ジャンプする
                 rb.AddForce(transform.up * GameData.instance.jumpPower);
@@ -253,7 +253,7 @@ namespace Tsubasa
             isAttack = true;
 
             //音声を再生
-            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetCharacterVoiceData(myName).clip);
+            SoundManager.instance.PlaySound(SoundManager.instance.GetCharacterVoiceData(myName).clip);
 
             //攻撃アニメーションを行う
             animator.SetBool("Attack", true);
@@ -321,7 +321,7 @@ namespace Tsubasa
             if (!soundFlag)
             {
                 //効果音を再生
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
 
                 //soundFlagにtrueを入れる
                 soundFlag = true;
@@ -343,7 +343,7 @@ namespace Tsubasa
             if (Input.GetKey(characterManager.GetCharacterControllerKey(myName, CharacterManager.KeyType.Up)))
             {
                 //効果音を再生
-                SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+                SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
 
                 //ジャンプする
                 transform.DOMoveY(transform.position.y + GameData.instance.jumpHeight, 0.5f);

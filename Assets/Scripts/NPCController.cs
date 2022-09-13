@@ -166,7 +166,7 @@ public class NPCController : MonoBehaviour
         isJumping = true;
 
         //効果音を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
 
         //ジャンプのアニメーションを行う
         animator.SetBool("Jump", true);
@@ -250,7 +250,7 @@ public class NPCController : MonoBehaviour
         isAttack = true;
 
         //音声を再生
-        SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetCharacterVoiceData(myName).clip);
+        SoundManager.instance.PlaySound(SoundManager.instance.GetCharacterVoiceData(myName).clip);
 
         //攻撃アニメーションを行う
         animator.SetBool("Attack", true);
@@ -318,7 +318,7 @@ public class NPCController : MonoBehaviour
         if (!soundFlag)
         {
             //効果音を再生
-            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
+            SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.Cliff).clip);
 
             //soundFlagにtrueを入れる
             soundFlag = true;
@@ -349,7 +349,7 @@ public class NPCController : MonoBehaviour
         if (!jumped)
         {
             //効果音を再生
-            SoundManager.instance.PlaySoundByAudioSource(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
+            SoundManager.instance.PlaySound(SoundManager.instance.GetSoundEffectData(SoundDataSO.SoundEffectName.jump).clip);
 
             //ジャンプする
             transform.DOMoveY(transform.position.y + GameData.instance.jumpHeight, 0.5f);
