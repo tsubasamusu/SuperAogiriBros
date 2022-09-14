@@ -1,26 +1,25 @@
 using System.Collections;
 using UnityEngine;
 
-
-
+/// <summary>
+/// 所有者の種類
+/// </summary>
 public enum OwnerType {
-    Player,
-    NPC
+    Player,//プレイヤー
+    NPC//コンピューター（NPC）
 }
 
+/// <summary>
+/// 親クラス
+/// </summary>
 public class CharaControllerBase : MonoBehaviour
 {
     [SerializeField]
     protected GameObject attackPoint;//攻撃位置
 
-    ////[SerializeField]
     protected Rigidbody rb;//RigidBody
 
-    //[SerializeField]
     protected Animator animator;//Animator
-
-    //[SerializeField]
-    //protected CharaName myName;//自分の名前
 
     protected bool isjumping;//ジャンプしているかどうか
 
@@ -30,26 +29,37 @@ public class CharaControllerBase : MonoBehaviour
 
     protected bool soundFlag;//崖の効果音用
 
-    protected CharaData charaData;
+    protected CharaData charaData;//キャラクターのデータ
 
-    protected OwnerType ownerType;
+    protected OwnerType ownerType;//所有者の種類
 
-    protected bool isSetUp;
-
+    protected bool isSetUp;//初期設定が完了したかどうか
 
     /// <summary>
     /// CharacterControllerの初期設定を行う
     /// </summary>
-    /// <param name="characterManager">CharacterManager</param>
-    public virtual void SetUpCharacterController(CharaData charaData, OwnerType ownerType, CharaControllerBase npc = null) {
-
+    /// <param name="charaData">キャラクターのデータ</param>
+    /// <param name="ownerType">所有者の種類</param>
+    /// <param name="npc">CharaControllerBase</param>
+    public virtual void SetUpCharacterController(CharaData charaData, OwnerType ownerType, CharaControllerBase npc = null)
+    { 
+        //キャラクターのデータを取得
         this.charaData = charaData;
+
+        //所有者の種類を取得
         this.ownerType = ownerType;
 
-        if(!TryGetComponent(out rb)){
-            Debug.Log("Rigidbody 取得出来ません。");
+        //Rigidbodyの取得に失敗したら
+        if(!TryGetComponent(out rb))
+        {
+            //問題を報告 
+            Debug.Log("Rigidbodyの取得に失敗");
         }
-        if (!TryGetComponent(out animator)) {
+
+        //Animatorの取得に失敗したら
+        if (!TryGetComponent(out animator))
+        {
+            //問題を報告
             Debug.Log("Animator 取得出来ません。");
         }
 
@@ -59,6 +69,7 @@ public class CharaControllerBase : MonoBehaviour
         //プレイヤーの移動を開始する
         StartCoroutine(Move());
 
+        //初期設定が完了した状態に切り替える
         isSetUp = true;
     }
 
@@ -66,16 +77,16 @@ public class CharaControllerBase : MonoBehaviour
     /// <summary>
     /// プレイヤーの移動を実行する
     /// </summary>
-    /// <param name="characterManager">CharacterManager</param>
     /// <returns>待ち時間</returns>
-    protected IEnumerator Move() {
-        //0.5秒待つ
+    protected IEnumerator Move() 
+    {
+        //0.5秒待つ（瞬間移動防止）
         yield return new WaitForSeconds(0.5f);
 
         //無限に繰り返す
-        while (true) {
-
-            // Player か NPC でメソッドの中身を変える
+        while (true) 
+        {
+            //移動する（プレイヤーかNPCでメソッドの中身を変える）
             StartCoroutine(ObserveMove());
 
             //一定時間待つ（実質、FixedUpdateメソッド）
@@ -84,12 +95,12 @@ public class CharaControllerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// プレイヤーかNPC で移動の制御を書き換えるためのメソッド
+    /// プレイヤーかNPCで移動の制御を書き換えるためのメソッド
     /// </summary>
-    /// <param name="characterManager"></param>
-    /// <returns></returns>
-
-    protected virtual IEnumerator ObserveMove() {
+    /// <returns>待ち時間</returns>
+    protected virtual IEnumerator ObserveMove() 
+    {
+        //（仮）
         yield return null;
     }
 
@@ -97,7 +108,8 @@ public class CharaControllerBase : MonoBehaviour
     /// 接地判定を行う
     /// </summary>
     /// <returns>接地していたらtrue</returns>
-    protected bool CheckGrounded() {
+    protected bool CheckGrounded() 
+    {
         //光線の初期位置と向きを設定
         Ray ray = new Ray(transform.position + Vector3.up * 0.1f, Vector3.down);
 
@@ -112,7 +124,8 @@ public class CharaControllerBase : MonoBehaviour
     /// 攻撃する
     /// </summary>
     /// <returns>待ち時間</returns>
-    protected IEnumerator Attack() {
+    protected IEnumerator Attack() 
+    {
         //攻撃中に切り替える
         isAttack = true;
 
@@ -148,7 +161,8 @@ public class CharaControllerBase : MonoBehaviour
     /// 崖にしがみついているかどうか調べる
     /// </summary>
     /// <returns>崖にしがみついていたらtrue</returns>
-    protected bool CheckCliff() {
+    protected bool CheckCliff() 
+    {
         //プレイヤーが崖より上か下にいるなら
         if (transform.position.y > -1f || transform.position.y < -3f) {
             //以降の処理を行わない
@@ -168,7 +182,9 @@ public class CharaControllerBase : MonoBehaviour
     /// <summary>
     /// 崖にしがみつく
     /// </summary>
-    protected IEnumerator ClingingCliff() {
+    /// <returns>待ち時間</returns>
+    protected IEnumerator ClingingCliff() 
+    {
         //既に崖からジャンプしたなら
         if (jumped) {
             //以降の処理を行わない
@@ -205,25 +221,26 @@ public class CharaControllerBase : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        soundFlag = false;    //  <=  false にしている場所がなかったので、ここに追加
+        //soundFlagにfalseを入れる
+        soundFlag = false;
 
-        // ジャンプの後処理
+        //ジャンプの後の処理を行う
         AfterJump();
     }
 
     /// <summary>
-    /// ジャンプの後処理
+    /// ジャンプの後の処理を行う
     /// </summary>
-    protected virtual void AfterJump() {
-
-        // 各子クラスで上書きして設定する
+    protected virtual void AfterJump() 
+    {
+        //（各子クラスで上書きして設定しろ）
     }
 
     /// <summary>
-    /// プレイヤーの位置と向きを崖の位置と向きに合わせる
-    /// AfterJump の中で適宜なタイミングで実行する
+    /// キャラクターの向きと位置を、崖の向きと位置に合わせる
     /// </summary>
-    protected void AdjustmentPlayerToCliffTran() {
+    protected void AdjustmentPlayerToCliffTran() 
+    {
         //プレイヤーを崖の位置に移動させる
         transform.position = transform.position.x > 0 ? new Vector3(7.5f, -2f, 0f) : new Vector3(-7.5f, -2f, 0f);
 

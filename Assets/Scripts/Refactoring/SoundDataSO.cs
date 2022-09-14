@@ -1,18 +1,19 @@
-using System.Collections;
 using System.Collections.Generic;//リストを使用
 using UnityEngine;
 using System;//Serializable属性を使用
 
 
-namespace yamap {
-
+namespace yamap 
+{
     //アセットメニューで「Create SoundDataSO」を選択すると「SoundDataSO」を作れる
     [CreateAssetMenu(fileName = "SoundDataSO", menuName = "Create SoundDataSO_1")]
-    public class SoundDataSO : ScriptableObject {
+    public class SoundDataSO : ScriptableObject 
+    {
         /// <summary>
         /// BGMの名前
         /// </summary>
-        public enum BgmName {
+        public enum BgmName 
+        {
             Main,//試合以外で流れるBGM
             Game//試合中に流れるBGM
         }
@@ -21,7 +22,8 @@ namespace yamap {
         /// BGMのデータを管理する
         /// </summary>
         [Serializable]
-        public class BgmData {
+        public class BgmData 
+        {
             public BgmName bgmName;//BGMの名前
             public AudioClip clip;//クリップ
         }
@@ -32,7 +34,8 @@ namespace yamap {
         /// <summary>
         /// 効果音の名前
         /// </summary>
-        public enum SoundEffectName {
+        public enum SoundEffectName 
+        {
             Select,//選択音
             Cliff,//崖に掴まるときの音
             jump,//ジャンプするときの音
@@ -44,7 +47,8 @@ namespace yamap {
         /// 効果音のデータを管理する
         /// </summary>
         [Serializable]
-        public class SoundEffectData {
+        public class SoundEffectData 
+        {
             public SoundEffectName soundEffectName;//効果音の名前
             public AudioClip clip;//クリップ
         }
@@ -55,7 +59,8 @@ namespace yamap {
         /// <summary>
         /// 音声の名前
         /// </summary>
-        public enum VoiceName {
+        public enum VoiceName 
+        {
             MashiroName,//真白の名前
             TamakoName,//魂子の名前
             CountDown,//試合開始前のカウントダウン
@@ -66,7 +71,8 @@ namespace yamap {
         /// 音声のデータを管理する
         /// </summary>
         [Serializable]
-        public class VoiceData {
+        public class VoiceData 
+        {
             public VoiceName voiceName;//音声の名前
             public AudioClip clip;//クリップ
         }
@@ -78,7 +84,8 @@ namespace yamap {
         /// キャラクターの音声のデータを管理する
         /// </summary>
         [Serializable]
-        public class CharacterVoiceData {
+        public class CharacterVoiceData 
+        {
             public CharaName charaName;//キャラクターの名前
             public AudioClip clip;//クリップ
         }
